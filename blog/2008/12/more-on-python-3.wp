@@ -1,0 +1,33 @@
+<div>
+
+
+
+Since my <a href="http://mithrandi.net/blog/2008/11/python-3-musings/">earlier post</a> on this subject, <a href="http://vhata.net/">someone</a> has since brought to my attention <a href="http://www.b-list.org/weblog/2008/dec/05/python-3000/">this blog post</a> by James Bennett. James writes well, cutting straight through to the real issues at hand, but in some places I think his facts are incorrect, and in other places I draw different conclusions to the ones he draws.
+
+
+
+First up, Unicode strings vs. byte strings. In fact, these are handled in almost exactly the same fashion in Python 2 and in Python 3; both languages have a type for storing strings of characters, and a type for storing strings of arbitrary bytes (including things like data read from a network socket, and the encoded form of character strings). In Python 3, the str type is for storing character strings, and the bytes type is for storing byte strings. In Python 2, the unicode type is for storing character strings, and the str type is for storing byte strings. That's really the only difference; the Python 2 str type has some methods that the Python 3 bytes type doesn't, but that's a relatively unimportant difference. The real problem in Python 2 is that many people have used the str type to store character strings, when they really should have been using the unicode type; this includes things built into the language (like attribute names or function names), various stdlib modules, and vast oceans of third-party code.
+
+
+
+What does Python 3 do to solve this? Well, not all that much, except for completely breaking everyone's existing string-handling code; I guess James assumes that in the process of fixing all of their string-handling code, they'll get things right this time around, but I'm somewhat less optimistic. Still, I think it is important to point out that Python 3 does *not* give you any additional tools for dealing with character / byte strings, nor does it make it any easier to work with them; at best, it just fixes some of the broken character / byte string-handling code that was being distributed with Python.
+
+
+
+With that out the way, I'll move on to the "different conclusions" part. First up, the "Death by a thousand cuts"; I know many programmers feel similarly about the myriad minor issues he mentions, but I'm simply not one of them. Sure, there are all sorts of minor annoyances, and they do start to add up over time, but they're simply irrelevant compared with the big issues. I might spend two weeks out of a whole year dealing with them, as opposed to months of time spent working around the lack of production-quality libraries for certain tasks, or the lack of higher-level programming constructs requiring me to write pages and pages of lower-level code to solve a certain problem. I'll admit that I used to find these minor issues a great annoyance, but over time, they've just faded away to background noise, just like much of the supposedly major differentiating factors between different libraries and different programming languages. Once you see the forest, you stop caring so much about the trees.
+
+
+
+Speaking of libraries, the new standard-library reorganisation is all very exciting; but I would really have liked it if they'd spent the time and energy on actually improving the code to a level suitable for production applications. It really doesn't matter how most of the standard library is organised, if you're not going to be using any of it anyway. In addition, projects reorganise APIs *all the time*, and there's a perfectly straightforward way to do it in a backwards-compatible fashion. You introduce the new API or new location of the API, deprecate the old one, and then eventually remove it. No Python 3-style chasm-of-incompatibility required.
+
+
+
+Of course, some of the standard library changes are actual functional improvements, not just rearranging the deck chairs; I haven't looked at it yet myself, but I'll take it on faith that the new I/O library is a vast improvement over the old Python 2 I/O facilities. Except... you don't need to break backwards-compatibility to introduce a new I/O library; and I assume it'll be ported to Python 2 sooner or later. Indeed, this is a common trend in Python 3 improvements; all the really interesting functional improvements are stuff that can and most likely will be ported to Python 2, if it has not already been ported.
+
+
+
+If Python was a brand new language, being developed from scratch with a brand new community, I would be very happy about all of the changes made in Python 3; but since it's not, I must repeat my claim that aside from things that can be backported to Python 2 in the first place, absolutely none of the Python 3 changes are worth making the jump to what is essentially a whole new programming language.
+
+
+
+</div>

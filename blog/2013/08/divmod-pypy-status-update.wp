@@ -1,0 +1,21 @@
+Just a quick status update:
+
+<ul>
+
+	<li>Epsilon test suite passes on PyPy.</li>
+
+	<li>Nevow test suite passes on PyPy.</li>
+
+	<li>Axiom (trunk) test suite has two failures on PyPy, fixed by <a href="https://code.launchpad.net/~divmod-dev/divmod.org/829869-explicit-type-dropping/+merge/72276">this branch</a> (which just deletes the tests); I don't expect this to affect any application code.</li>
+
+	<li>Mantissa test suite mostly fails. This is due to modules that indirectly import <code>xmantissa.terminal</code> which imports PyCrypto directly or indirectly (via <code>twisted.conch</code>) — PyCrypto does not build on PyPy.</li>
+
+	<li>I haven't looked at Combinator; the test suite has a whole bunch of test failures on CPython due to a change in Subversion, and there's no real reason to run Combinator with PyPy (I would expect it to be slower than on CPython).</li>
+
+	<li>I haven't looked at Quotient or Imaginary yet, as they depend on Mantissa.</li>
+
+	<li>I haven't looked at Hyperbola, Prime, Reverend, or Sine — I doubt anyone cares about these (I don't even know what Prime does, and it doesn't have a test suite).</li>
+
+</ul>
+
+The next thing I'm going to work on is <a href="https://bugs.launchpad.net/mantissa/+bug/830343">making the Mantissa dependency on PyCrypto optional</a>; while having an SSH server is nice, there is plenty of functionality in Mantissa that does not depend on or interact with the SSH server in any way, so it'll still be useful for most applications. With any luck, once this is fixed, the entire test suite will pass; it's hard to predict given how little of the test suite is currently runnable.

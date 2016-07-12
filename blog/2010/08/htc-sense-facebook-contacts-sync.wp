@@ -1,0 +1,9 @@
+<a href="http://jonathan.jsphere.com/">Jonathan</a> just ran into this on his new HTC Desire (updated to 2.2 "Froyo"); I haven't confirmed it on any other handset, but I imagine the problem is common to many HTC Sense + Android handsets. Anyhow, I figured I'd put this information out there to help anyone that runs into this issue. If anyone has a contact at HTC, please pass this along, so that they can look into a fix/workaround.
+
+
+
+When "Facebook for HTC Sense" tries to connect to Facebook to retrieve contacts or profiles, the client sends <code>Expect: 100-Continue</code> in the HTTP header. Facebook's HTTP servers do support <code>100 Continue</code>, but some proxy servers (such as squid) do not. If you have configured your phone to use a proxy server, or are behind a transparent proxy (which many ISPs do inflict on their users), and the proxy server does not support this, it will (correctly) respond with 417 Expectation failed response. At this point, HTC's client does not attempt to retry the request without requesting 100-Continue, but instead fails with an error message. This results in an empty Facebook directory / contacts list, and an error when you attempt to refresh it.
+
+
+
+If the proxy server is on your own network, simply bypassing it should solve the issue for you. If this is your ISP's proxy server, then you'll either need to work around it somehow, or contact HTC and/or your ISP for assistance.

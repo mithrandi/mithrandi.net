@@ -1,0 +1,97 @@
+<a name="d09t0010"></a><div>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/python"><img src="/images/techtag" alt="[tag]"> python</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/super"><img src="/images/techtag" alt="[tag]"> super</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/initializer"><img src="/images/techtag" alt="[tag]"> initializer</a></li>
+
+        </ul>
+
+        <p>So, <code>super()</code> and <code>__init__</code> in Python kinda <a href="http://glyf.livejournal.com/68858.html">sucks</a>. Actually, the linked example involves a method other than <code>__init__</code>, but this is probably the most common situation in which this problem arises.</p>
+
+
+
+        <p>There is a pattern I sometimes use in this situation, which provides cooperative handling of kwargs, with the caveat that the argument namespace is shared across the whole inheritance hierarchy. The usage looks something like this:</p>
+
+
+
+        <pre>
+
+class Base(object):
+
+    def __init__(self, foo):
+
+        self.foo = foo
+
+
+
+class A(Base):
+
+    def __init__(self, bar=5, **kw):
+
+        # consume bar parameter
+
+        super(A, self).__init__(**kw)
+
+        self.bar = bar
+
+
+
+# sample instantiations
+
+A(foo=10)
+
+A(foo=5, bar=10)
+
+
+
+class B(Base):
+
+    def __init__(self, baz, **kw):
+
+        # consume baz parameter
+
+        super(B, self).__init__(**kw)
+
+        self.baz = baz
+
+
+
+# sample instantiations
+
+B(foo=7, baz=9)
+
+
+
+class C(A, B):
+
+    def __init__(self, foo, baz=10, quux, **kw):
+
+        # munge foo, and make baz default to 10
+
+        # also consume quux
+
+        super(B, self).__init__(foo=foo + 5, baz=baz, **kw)
+
+        self.quux = quux
+
+
+
+# sample instantiations
+
+C(foo=2, bar=10, baz=7)
+
+C(foo=8)
+
+</pre>
+
+
+
+        <p>I'm not going to debate the larger issues here; I'm just presenting this as something that hopefully be a useful tool for handling this kind of situation. In the cases where I've used it, it has worked quite well, although you will probably run into trouble when many parts of the inheritance tree are under different people's control, due to the shared argument namespace.</p>
+
+    </div>

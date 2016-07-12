@@ -1,0 +1,39 @@
+<a name="d12t2031"></a><div>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/security"><img src="/images/techtag" alt="[tag]"> security</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/advisory"><img src="/images/techtag" alt="[tag]"> advisory</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/hacking"><img src="/images/techtag" alt="[tag]"> hacking</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/syrex"><img src="/images/techtag" alt="[tag]"> syrex</a></li>
+
+        </ul>
+
+        <p><a href="http://singe.rucus.net/">Dominic White</a> drew my attention to this on a mailing list earlier today, so I decided to investigate. <a href="http://www.syrex.co.za/">Syrex Intranets</a>, an apparently small technology outfit, have a product they call <a href="http://www.syrex.co.za/products/"><abbr title="Syrex Intranets Communications Server">SICS</abbr></a>. It basically seems to be a customized Linux server installation that has all the bells and whistles that small business would want, with a web-based management system and so on. I'm guessing this product is responsible for the problem that I will now describe.</p>
+
+
+
+        <p>The first instance of this site I saw was <a href="http://www.koshcom.co.za/">KOSH Communications</a>; their SICS <a href="http://unix-01.koshcom.co.za/">management site</a> is publically available. I'm only guessing this is provided by SICS, as there is no identification of this fact on the site itself. I ran across it with a google search that picked up publically available Squid logfiles, but didn't take much notice of it. However, when someone else independently pointed out a <a href="http://unix-01.fontanaroastery.co.za/">separate site</a>, the similarity in content, appearance, and domain name was evident.</p>
+
+
+
+        <p>So, over to <a href="http://www.google.com/">Google</a>; with a little effort, I was able to construct a <a href="http://www.google.com/search?q=%22CD-ROM+Drive%22+%22this+web+site+maintained+by+david+herselman%22+-gerber&hl=en&lr=&c2coff=1&filter=0">Google query</a> that will pick up all (or most) of these sites that are publically available. I'm not sure whether this is a configuration issue that can be fixed easily, or if it is a fundamental flaw in the "SICS" system; either way, at the time of this writing, that query returns 71 sites. You can view MRTG traffic graphs, Squid cache logs, mount/unmount the CD-ROM drive, and more from the internet, without entering a password or otherwise authenticating in any way. Syrex's own site <a href="http://unix-01.syrex.co.za/">seems to be vulnerable</a>, suggesting a fundamental flaw rather than a configuration issue.</p>
+
+
+
+        <p>It also has a <a href="http://unix-01.fasken.co.za/unix-unleashed_admin/">copy of Unix Unleashed</a>, including a copyright statement which they seem to be blatantly violating. In addition, many (all) of these sites seem to be hosted off ADSL lines with IP addresses located in the dynamic SAIX ADSL range, and as such may be violating the ISP's AUP. I would strongly suggest that anyone using one of these systems take it offline, and contact Syrex right away to demand a fix.</p>
+
+
+
+        <p>UPDATE: Whoops, meant to link singe, so I'm now referencing him by name to make up for it.</p>
+
+
+
+        <p>UPDATE: Got a reply from someone at Syrex on 2005/08/18 saying that they've fixed the issue, and promising a more in-depth reply at a later stage. They also claim that "David wrote one of the articles in Unix Unleashed and is therefor not infringing on any copyright." You can confirm for yourself that all of these sites now require HTTP Basic Authentication credentials to access anything except the front page, which seems adequate to me. I'll continue to update this post as/when I received more information.</p>
+
+    </div>

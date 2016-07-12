@@ -1,0 +1,171 @@
+<a name="d20t2220"></a><div>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/quagga"><img src="/images/techtag" alt="[tag]"> quagga</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/networking"><img src="/images/techtag" alt="[tag]"> networking</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/routing"><img src="/images/techtag" alt="[tag]"> routing</a></li>
+
+        </ul>
+
+        <p>Well, I guess it took me long enough, but as promised, how I setup dual-path routing with <a href="http://quagga.net/">Quagga</a>. But first, thanks and credit to <a href="http://karnaugh.za.net/">Colin</a> and <a href="http://kaydash.za.net/">Jonathan</a> for helping me out with this on IRC; as they had done similar work before, it was a lot easier than blazing the trail myself.</p>
+
+
+
+        <p>So, what the heck am I talking about? Let's start off with a little background for those of you unfamiliar with the state of ADSL internet access in South Africa. Aside from the costs paid to the <a href="http://www.telkom.co.za/">local telecommunications monopoly</a> for the physical service provision, there is also an ISP charge for actually getting onto the internet, which includes charging for bandwidth usage (throughput). Exact pricing varies slightly between ISPs, but is mostly the same across the board, so I'll quote prices from <a href="http://webafrica.co.za/">the ISP I use</a>. To cut a long story short, I pay about R70 (US$9.46) per GB of international transfer (in both directions), but I can get local-only connectivity at a much cheaper rate of around R4.33 (US$0.59) per GB. This clearly makes it economically advantageous to do local transfers over a local-only account.</p>
+
+
+
+        <p>So, how to do it? My internet gateway, <a href="/hardware/elvandar">elvandar</a>, is naturally running <a href="http://www.debian.org/">Debian</a> GNU/Linux, so this can easily be setup. Please note that the following instructions are primarily designed for a Debian system, and your mileage may vary with other distributions.</p>
+
+
+
+
+
+        <ol>
+
+            <li>
+
+            <p>Configure your PPP connections appropriately.</p>
+
+
+
+            <p>Make a copy of your existing <code>/etc/peers/$PROVIDER</code> file for the second PPP connection; you will want to change the <code>username</code> setting in the new file, and also remove the <code>defaultroute</code> setting, so that the default route will always point at the first PPP connection.. Next, add a <code>unit 0</code> setting to the first file, and a unit <code>unit 1</code> setting to the second (assuming you don't already have these or similar); this ensures that the <code>ppp0</code> and <code>ppp1</code> devices (respectively) will always be used, rather than the order of the connections coming up determining how devices are assigned.</p>
+
+
+
+            <p>For reference, my peer files are called <code>saix</code> and <code>is</code>, and I have the following stanzas in <code>/etc/network/interfaces</code> to bring them up:</p>
+
+
+
+<pre>auto dsl
+
+iface dsl inet ppp
+
+    provider saix
+
+
+
+auto dsl-is
+
+iface dsl-is inet ppp
+
+    provider is</pre>
+
+            </li>
+
+
+
+            <li>
+
+            <p>Install Quagga.</p>
+
+
+
+            <p><code># aptitude install quagga</code></p>
+
+            </li>
+
+
+
+            <li>
+
+            <p>Configure Quagga.</p>
+
+
+
+            <p>My configuration looks like the following:</p>
+
+
+
+<pre>hostname elvandar
+
+
+
+### TENET
+
+
+
+# UCT-C1
+
+ip route 196.21.0.0/19      ppp1
+
+
+
+### IS
+
+
+
+# ISNET-03
+
+ip route 196.26.0.0/16      ppp1
+
+
+
+### Verizon
+
+
+
+# HC1-20050912
+
+ip route 196.40.96.0/20     ppp1
+
+
+
+# HETZNER-ZA
+
+ip route 196.22.132.0/22    ppp1
+
+ip route 196.22.136.0/21    ppp1
+
+
+
+### Datapro
+
+
+
+# GIA-BLK6
+
+ip route 196.41.192.0/19    ppp1</pre>
+
+
+
+            <p>Initially I had plans to retrieve a list of local routes from public-route-server.is.co.za and use that, but I discovered that I was tweaking my routing a lot, so I decided to just stick with setting specific routes for hosts that I wanted them for.</p>
+
+            </li>
+
+
+
+            <li>
+
+            <p>Enable the Zebra daemon.</p>
+
+
+
+            <p>Edit <code>/etc/quagga/daemons</code> and set <code>zebra=yes</code>.</p>
+
+            </li>
+
+
+
+            <li>
+
+            <p>Make sure the configuration changes take effect.</p>
+
+
+
+            <p><code># invoke-rc.d quagga force-reload</code></p>
+
+            </li>
+
+        </ol>
+
+
+
+        <p>And there you have it. Zebra will automatically add the routes as the appropriate interface(s) come up, thus you don't need to worry about the routes persisting across reconnections etc. (which is a good thing, since currently all ADSL connections are terminated after they have been active for 24 hours... argh!)</p>
+
+    </div>

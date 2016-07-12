@@ -1,0 +1,95 @@
+<div>
+
+
+
+I continue to be baffled by the SSH intrusion attempts that show up in my logs.
+
+<blockquote>Jan 11 10:03:47 azure sshd[6044]: Invalid user white\twhite from 121.144.130.32
+
+Jan 11 10:04:23 azure sshd[6070]: Invalid user venta\tventa from 121.144.130.32
+
+Jan 11 10:04:34 azure sshd[6081]: Invalid user white\twhite from 121.144.130.32
+
+Jan 11 10:05:11 azure sshd[6106]: Invalid user venta\tventa from 121.144.130.32</blockquote>
+
+No, none of my usernames have a tab or a t in them.
+
+<blockquote>Jan 10 17:24:05 crimson sshd[23214]: Invalid user llinco361ir from 209.222.52.89</blockquote>
+
+Who?
+
+<blockquote>Jan  8 13:14:12 crimson sshd[12153]: Invalid user has-cechova$ from 64.119.177.36
+
+Jan  8 13:46:54 crimson sshd[13596]: Invalid user !a@b#c from 64.119.177.36
+
+Jan  8 13:46:56 crimson sshd[13598]: Invalid user !@#abc from 64.119.177.36
+
+Jan  8 13:47:26 crimson sshd[13620]: Invalid user mail$ from 64.119.177.36
+
+Jan  8 13:50:37 crimson sshd[13762]: Invalid user Xu}7fXta!p7y from 64.119.177.36
+
+Jan  8 13:50:39 crimson sshd[13764]: Invalid user Xu}7fXta!p7y from 64.119.177.36
+
+Jan  8 13:50:42 crimson sshd[13766]: Invalid user Xu}7fXta!p7y from 64.119.177.36
+
+Jan  8 13:50:45 crimson sshd[13768]: Invalid user Xu}7fXta!p7y from 64.119.177.36
+
+Jan  8 13:50:47 crimson sshd[13770]: Invalid user Xu}7fXta!p7y from 64.119.177.36
+
+&lt;snip more identical attempts&gt;</blockquote>
+
+Why would any of these usernames exist on my system? And why does "Xu}7fXta!p7y" get a zillion attempts, but the others only get one each?
+
+<blockquote>Jan  8 11:09:18 crimson sshd[7359]: Invalid user 123!@# from 190.14.234.71
+
+Jan  8 11:09:54 crimson sshd[7383]: Invalid user bl345hajk from 190.14.234.71
+
+Jan  8 11:15:46 crimson sshd[7607]: Invalid user fv11r01rc3@l from 190.14.234.71
+
+Jan  8 11:15:52 crimson sshd[7611]: Invalid user pcsarl,49 from 190.14.234.71
+
+Jan  8 11:19:16 crimson sshd[7746]: Invalid user r00tp@ssw0rd from 190.14.234.71
+
+Jan  8 11:21:45 crimson sshd[7845]: Invalid user 4fj^w! from 190.14.234.71
+
+Jan  8 11:22:03 crimson sshd[7857]: Invalid user #jaime56 from 190.14.234.71
+
+Jan  8 11:34:57 crimson sshd[8360]: Invalid user moromete*!*@* from 190.14.234.71
+
+Jan  8 11:35:01 crimson sshd[8362]: Invalid user moromete*!*@* from 190.14.234.71
+
+Jan  8 11:35:04 crimson sshd[8364]: Invalid user cartaya*!*@* from 190.14.234.71
+
+Jan  8 11:35:07 crimson sshd[8366]: Invalid user cartaya*!*@* from 190.14.234.71
+
+Jan  8 11:35:22 crimson sshd[8376]: Invalid user moromete*!*@* from 190.14.234.71
+
+Jan  8 11:35:25 crimson sshd[8378]: Invalid user cartaya*!*@* from 190.14.234.71</blockquote>
+
+Protocol mismatch: expect SSH but found IRC.
+
+<blockquote>Jan  8 10:33:41 azure sshd[17826]: Invalid user !#!@#&amp;*#!@#$ from 190.14.234.71
+
+Jan  8 10:33:54 azure sshd[17834]: Invalid user !@###$@ from 190.14.234.71
+
+Jan  8 10:42:09 azure sshd[18122]: Invalid user #@#POLICE@!!@!@!@ from 190.14.234.71
+
+Jan  8 10:43:45 azure sshd[18188]: Invalid user *&amp;_%$#*&amp;!@#$@! from 190.14.234.71
+
+Jan  8 10:44:34 azure sshd[18215]: Invalid user fericitmereu@l from 190.14.234.71
+
+Jan  8 10:53:09 azure sshd[18577]: Invalid user %$#$%!@#^&amp; from 190.14.234.71</blockquote>
+
+Shit! It's the POLICE, run for it!
+
+<blockquote>Jan  8 10:59:41 crimson sshd[6038]: Invalid user kx028897chebeuname+a from 190.14.234.71</blockquote>
+
+Who?
+
+
+
+Anyhow, if you have some explanation for any of these, please let me know; I'm dying of curiosity.
+
+
+
+</div>

@@ -1,0 +1,39 @@
+<a name="d01t2105"></a>
+
+<div>
+
+<h4 class="tags">tags:</h4>
+
+<ul class="tags">
+
+	<li><a rel="tag" href="http://technorati.com/tag/fusion"><img src="/images/techtag" alt="[tag]" /> fusion</a></li>
+
+	<li><a rel="tag" href="http://technorati.com/tag/work"><img src="/images/techtag" alt="[tag]" /> work</a></li>
+
+	<li><a rel="tag" href="http://technorati.com/tag/divmod"><img src="/images/techtag" alt="[tag]" /> divmod</a></li>
+
+	<li><a rel="tag" href="http://technorati.com/tag/twisted"><img src="/images/techtag" alt="[tag]" /> twisted</a></li>
+
+</ul>
+
+I just finished deploying Fusion 1.0 to our production server. If you don't know what that is, suffice it to say that it's the new system I've been working on for the last 6 months or so, replacing the existing legacy system. If you're wondering why I'm excited, not terrified, here is a snippet of code from the legacy system:
+
+<pre><code>printf([&lt;input type="submit" value="Next Page" onClick="if (checkMatrix('MAINFORM', 'qmtx')] + ;
+
+    [ &amp;&amp; checkMPStuff('MAINFORM', 'toolkitnum', 'qmp')] + ;
+
+    ; //' &amp;&amp; checkReasons(%s)' + ;
+
+    [ &amp;&amp; confirm('Proceed with inception of selected products? This is irrevocable!')) changeAction('MAINFORM', 'MAKEPAGE.EXE'); else return false;" /&gt;&lt;/div&gt;],;
+
+    {jsDict(getOptDatabases())})]]</code></pre>
+
+In case you're interested, Fusion is deployed on top of the <a href="http://divmod.org/trac/wiki/DivmodMantissa">Divmod Mantissa</a> stack (which includes <a href="http://divmod.org/trac/wiki/DivmodAxiom">Axiom</a>, <a href="http://divmod.org/trac/wiki/DivmodNevow">Nevow</a>, <a href="http://twistedmatrix.com/">Twisted</a>). Without these awesome Free Software projects, this would have been a much longer ride, and the resulting product would no doubt have been of far inferior quality; thanks to all the contributors that make these projects a reality!
+
+
+
+Anyhow, that's all for now. Coming up next... a series on JavaScript "features" that are likely to stab you in the face. Maybe even <a href="http://bash.org/?4281">over the internet</a>.
+
+
+
+</div>

@@ -1,0 +1,47 @@
+<a name="d27t1028"></a><div>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/dns"><img src="/images/techtag" alt="[tag]"> dns</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/GoDaddy"><img src="/images/techtag" alt="[tag]"> GoDaddy</a></li>
+
+        </ul>
+
+        <p><a href="http://godaddy.com/">GoDaddy</a> are not exactly the nicest registrar around; their site and e-mail newsletters are filled with annoying advertising/marketing junk, and their web interface is not particularly pleasant to use. However, they are relatively functional, and their prices are good, so you might have landed up registering a domain with them. At this point, if you are like me, you will want to follow best practices and setup an in-bailiwick delegation for your shiny new domain. Unfortunately, the exact procedure for doing this through GoDaddy's web interface is not particularly obvious. For .com/.net/etc. domains, you need to register your nameservers in whois first; once you have done that, you can then list those nameservers for your domain.</p>
+
+        <p>Here is a step-by-step description of how to achieve this via the GoDaddy web interface:
+
+        <ol>
+
+            <li>Log into the GoDaddy site.</li>
+
+            <li>Select "My Account" in the sidebar on the right.</li>
+
+            <li>Select "Manage Domains" underneath "Domain Names".</li>
+
+            <li>Select the domain you want to modify from the list (the domain name itself is a hyperlink).</li>
+
+            <li>Expand "Domain Host Summary" in the sidebar on the right.</li>
+
+            <li>Select "Click here to see details or to modify".</li>
+
+            <li>Fill in hostname / IP pairs (select "Add New Host" to get additional input controls if you have more than two nameservers), and then select "Save Changes" once you are done.</li>
+
+            <li>Wait a minute or two, to allow the information to propagate to WHOIS.</li>
+
+            <li>Select your domain from the list on the left, again.</li>
+
+            <li>Select "Click here to see details or to modify." under Nameservers summary in the sidebar.</li>
+
+            <li>Fill in the hostnames of the nameservers you just configured, using "Add New Nameserver" as necessary, and selecting "Save Changes" once you are finished.</li>
+
+            <li>Sit back, relax, and wait for the DNS records to propagate.</li>
+
+        </ol>
+
+        </p>
+
+    </div>

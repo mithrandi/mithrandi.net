@@ -1,0 +1,7 @@
+Q: How do I restore an SVN working copy to pristine condition?
+
+
+
+A: Use bzr:
+
+[plain]svn revert -R . &amp;&amp; bzr clean-tree --ignored --unknown[/plain]

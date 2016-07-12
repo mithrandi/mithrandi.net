@@ -1,0 +1,5 @@
+<div>
+
+        <p>What have I been up to recently?</p><ul><li>Helping <a href="http://jonathanj.vox.com/">Jonathan</a> design <a href="http://edgeverse.com/">Procyon</a>.</li><li>Started hacking on an <a href="http://divmod.org/trac/ticket/2733">IFulltextIndexer implementation</a> using <a href="http://www.sqlite.org/cvstrac/wiki?p=FtsUsage">SQLite FTS3</a>.</li><li>Fixed an <a href="http://divmod.org/trac/ticket/2741">annoying bug</a> in <a href="http://divmod.org/trac/wiki/DivmodAxiom">Axiom</a> that would prevent upgrades from happening under some cases.</li><li>Nearly finished packaging <a href="http://code.google.com/p/quodlibet">Quod Libet</a> 2.0 for Debian.</li><li>Wrote a <a href="http://slipgate.za.net/%7Emithrandi/darcs/sandbox/tree.hs">simple Haskell program</a> to display a filesystem tree annotated with file sizes, mostly just to practice my Haskell coding skills.</li><li>Did some work on an <a href="http://divmod.org/trac/wiki/DivmodAthena">Athena</a> / IE <a href="http://divmod.org/trac/ticket/2731">bug</a>; hopefully it&#39;ll be fixed by the time you read this.<br /></li></ul>
+
+                </div>

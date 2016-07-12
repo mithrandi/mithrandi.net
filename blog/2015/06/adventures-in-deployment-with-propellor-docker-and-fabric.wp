@@ -1,0 +1,64 @@
+<h1>Preface</h1>
+
+After playing around with Docker a bit, I decided that it would make an ideal deployment platform for my work services (previously we were using some ad-hoc isolation using unix users and not much else). While Docker's security is...suspect...compared to a complete virtualization solution (see Xen), I'm not so much worried about complete isolation between my services, as things like easy resource limits and imaging. You can build this yourself out of cgroups, chroot, etc. but in the end you're just reinventing the Docker wheel, so I went with Docker instead.
+
+
+
+However, Docker by itself is not a complete solution. You still need some way to configure the Docker host, and you also need to build Docker images, so I added Propellor (which I recently discovered) and Fabric to the mix.
+
+<h1>Propellor</h1>
+
+<a href="http://propellor.branchable.com/">Propellor</a> is a configuration management system (in the sense of Puppet, Chef, Salt, et al.) written in Haskell, where your configuration itself is Haskell code. For someone coming from a systems administration background, the flexibility and breadth offered by a real programming language like Haskell may be quite daunting, but as a programmer, I find it far more straightforward to just write code that does what I want, extracting common pieces into functions and so on. Our previous incarnation of things used Puppet for configuration management, but it always felt very awkward to work with; another problem is that Puppet was introduced after a bunch of the infrastructure was in place, meaning a lot of things were not actually managed by Puppet because somebody forgot. Propellor was used to configure a new server from scratch, ensuring that nothing was done ad-hoc, and while I won't go into too much detail about Propellor, I am liking it a lot so far.
+
+
+
+The role of Propellor in the new order is to configure things to provide the expected platform. This includes installing Docker, installing admin user accounts, SSH keys, groups, and so on.
+
+<h1>Docker</h1>
+
+The Docker workflow I adopted is based on the one <a href="https://glyph.twistedmatrix.com/2015/03/docker-deploy-double-dutch.html">described by Glyph</a>. I would strongly recommend you go read his excellent post for the long explanation, but the short version is that instead of building a single container image, you instead build three: A "build" container used to produce the built artifacts from your sources (eg. Python wheels, Java/Clojure JARs), a "run" container which is built by installing the artifacts produced by running the "build" container, and thus does not need to contain your toolchain and -dev packages (keeping the size down), and a "base" container which contains the things shared by the "build" and "run" containers, allowing for even more efficiency of disk usage.
+
+
+
+While I can't show the Docker bits for our proprietary codebases, you can see the bits for <a href="https://github.com/fusionapp/documint/tree/master/docker">one of our free software codebases</a>, including instructions for building and running the images. The relative simplicity of the <code>.docker</code> files is no accident; rather than trying to shoehorn any complex build processes into the Docker image build, all of the heavy lifting is done by standard build and install tools (in the case of Documint: apt/dpkg, pip, and setuptools). Following this principal will save you a lot of pain and tears.
+
+<h1>Fabric</h1>
+
+The steps outlined for building the Docker images are relatively straightforward, but copy/pasting shell command lines from a README into a terminal is still not a great experience. In addition, our developers are typically working from internet connections where downloading multi-megabyte Docker images / packages / etc. is a somewhat tedious experience, and uploading the resulting images is ten times worse (literally ten times worse; my connection at home is 10M down / 1M up ADSL, for example). Rather than doing this locally, this should instead run on one of our servers which has much better connectivity and a stable / well-defined platform configuration (thanks to Propellor). So now the process would be "copy/paste shell command lines from a README into an ssh session" — no thanks. (For comparison, our current deployment processes use some ad-hoc shell scripts lying around on the relevant servers; a bit better than copy/pasting into an ssh session, but not by much.)
+
+
+
+At this point, <a href="http://blog.froztbyte.net/">froztbyte</a> reminded me of Fabric (which I knew about previously, but hadn't thoughto f in this context). So instead I wrote some fairly simple Fabric tasks to automate the process of building new containers, and also deploying them. For final production use, I will probably be setting up a scheduled task that automatically deploys from our "prod" branch (much like our current workflow does), but for testing purposes, we want a deploy to happen whenever somebody merges something into our testing release branch (eventually I'd like to deploy test environments on demand for separate branches, but this poses some challenges which are outside of the scope of this blog post). I could build some automated deployment system triggered by webhooks from BitBucket (where our private source code is hosted), but since everyone with access to merge things into that branch also has direct SSH access to our servers, Fabric was the easiest solution; no need to add another pile of moving parts to the system.
+
+
+
+My Fabric tasks look like this (censored slightly to remove hostnames):
+
+
+
+[code]
+@hosts('my.uat.host')
+def build_uat_documint():
+    with settings(warn_only=True):
+        if run('test -d /srv/build/documint').failed:
+            run('git clone --quiet -- https://github.com/fusionapp/documint.git /srv/build/documint')
+    with cd('/srv/build/documint'):
+        run('git pull --quiet')
+        run('docker build --tag=fusionapp/documint-base --file=docker/base.docker .')
+        run('docker build --tag=fusionapp/documint-build --file=docker/build.docker .')
+        run('docker run --rm --tty --interactive --volume=&quot;/srv/build/documint:/application&quot; --volume=&quot;/srv/build/documint/wheelhouse:/wheelhouse&quot; fusionapp/documint-build')
+        run('cp /srv/build/clj-neon/src/target/uberjar/clj-neon-*-standalone.jar bin/clj-neon.jar')
+        run('docker build --tag=fusionapp/documint --file=docker/run.docker .')
+
+
+@hosts('my.uat.host')
+def deploy_uat_documint():
+    with settings(warn_only=True):
+        run('docker stop --time=30 documint')
+        run('docker rm --volumes --force documint')
+    run('docker run --detach --restart=always --name=documint --publish=8750:8750 fusionapp/documint')
+[/code]
+
+
+
+Developers can now deploy a new version of Documint (for example) by simply running <code>fab build_uat_documint deploy_uat_documint</code>. Incidentally, the unit tests are run during the container build (from the <code>.docker</code> file), so deploying a busted code version by accident shouldn't happen.

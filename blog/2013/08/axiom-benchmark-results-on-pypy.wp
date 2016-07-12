@@ -1,0 +1,153 @@
+<strong>EDIT:</strong> <a href="https://mithrandi.net/blog/2015/03/axiom-benchmark-results-on-pypy-2-5-0/">Updated version now available</a>.
+
+
+
+<strong>EDIT:</strong> Fixed the issue with the store-opening benchmark
+
+
+
+Axiom conveniently includes a few microbenchmarks; I thought I'd use them to give an idea of the speed increase made possible by running Axiom on PyPy. In order to do this, however, I'm going to have to modify the benchmarks a little. To understand why this is necessary, one has to understand how PyPy achieves the speed it does: namely, through the use of JIT (Just-In-Time) compilation techniques. In short, these techniques mean that PyPy is compiling code during the execution of a program; it does this "just in time" to run the code (or actually, if I understand correctly, in some cases only after the code has been run). This means that when a PyPy program has just started up, there is a lot of performance overhead in the form of the time taken up by JIT compilation running, as well as time taken up by code being interpreted slowly because it has not yet been compiled. While this performance hit is quite significant for command-line tools and other short-lived programs, many applications making use of Axiom are long-lived server processes; for these, any startup overhead is mostly unimportant, the performance that interests us is the performance achieved once the startup cost has already been paid. The Axiom microbenchmarks mostly take the form of performing a certain operation N times, recording the time taken, then dividing that time by N to get an average time per single operation. I have made two modifications to the microbenchmarks in order to demonstrate the performance on PyPy; first, I have increased the value of "N"; second, I have modified the benchmarks to run the entire benchmark twice, throwing away the results from the first run and only reporting the second run. This serves to exclude startup/"warmup" costs from the benchmark.
+
+
+
+All of the results below are from my desktop machine running Debian unstable on amd64, CPython 2.7.5, and PyPy 2.1.0 on a Core i7-2600K running at 3.40GHz. I tried to keep the system mostly quiet during benchmarking, but I did have a web browser and other typical desktop applications running at the same time. Here's a graph of the results; see the rest of the post for the details, especially regarding the store-opening benchmark (which is actually slower on PyPy).
+
+
+
+[graph removed, see the <a href="https://mithrandi.net/blog/2015/03/axiom-benchmark-results-on-pypy-2-5-0/">new post</a> instead]
+
+
+
+To get an example of how much of a difference this makes, let's take a look at the first benchmark I'm going to run, <code>item-creation 15</code>. This benchmark constructs an <code>Item</code> type with 15 <code>integer</code> attributes, then runs 10 transactions where each transaction creates 1000 items of that type. In its initial form, the results look like this:
+
+
+
+[code]
+mithrandi@lorien&gt; python item-creation 15
+0.000164939785004
+mithrandi@lorien&gt; pypy item-creation 15
+0.000301389718056
+[/code]
+
+
+
+That's about 165µs per item creation on CPython, and 301µs on PyPy, nearly 83% slower; not exactly what we were hoping for. If I increase the length of the outer loop (number of transactions) from 10 to 1000, and introduce the double benchmark run, the results look a lot more encouraging:
+
+
+
+[code]
+mithrandi@lorien&gt; python item-creation 15
+0.000159110188484
+mithrandi@lorien&gt; pypy item-creation 15
+8.7410929203e-05
+[/code]
+
+
+
+That's about 159µs per item creation on CPython, and only 87µs on PyPy; that's a 45% speed increase. The PyPy speed-up is welcome, but it's also interesting to note that CPython benefits slightly from the changes to the benchmark. I don't have any immediate explanation for why this might be, but the difference is only about 3%, so it doesn't matter too much.
+
+
+
+The second benchmark is <code>inmemory-setting</code>. This benchmark constructs 10,000 items with 5 <code>inmemory</code> attributes (actually, the number of attributes is hardcoded, due to a limitation in the benchmark code), and then times how long it takes to set all 5 attributes to new values on each of the 10,000 items. I decreased the number of items to 1000, wrapped a loop around the attribute setting to repeat it 1000 times, and introduced the double benchmark run:
+
+
+
+[code]
+mithrandi@lorien&gt; python inmemory-setting
+4.86490821838e-07
+mithrandi@lorien&gt; pypy inmemory-setting
+1.28742599487e-07
+[/code]
+
+
+
+That's 486ns to set an attribute on CPython, and 129ns on PyPy, for a 74% speed increase. Note that this benchmark is extremely sensitive to small fluctuations since the operation being measured is such a fast one, so the results can vary a fair amount between benchmarks run. For interest's sake, I repeated the benchmark except with a normal Python class substituted for <code>Item</code>, in order to compare the overhead of setting an <code>inmemory</code> attribute as compared with normal Python attribute access. The result was 61ns to set an attribute on CPython (making an inmemory attribute about 700% slower), and 2ns on PyPy (inmemory is 5700% slower). The speed difference on PyPy is more to do with how fast setting a normal attribute is on PyPy, than to do with Axiom being slow.
+
+
+
+The third benchmark is <code>integer-setting</code>. This benchmark is similar to <code>inmemory-setting</code> except that it uses <code>integer</code> attributes instead of <code>inmemory</code> attributes. I performed the same modifications, except with an outer loop of 100 iterations:
+
+
+
+[code]
+mithrandi@lorien&gt; python integer-setting
+1.23480038643e-05
+mithrandi@lorien&gt; pypy integer-setting
+3.80326986313e-06
+[/code]
+
+
+
+That's 12.3µs to set an attribute on CPython, and 3.8µs on PyPy, a 69% speed increase.
+
+
+
+The fourth benchmark is <code>item-loading 15</code>. This benchmark creates 10,000 items with 15 <code>integer</code> attributes each, then times how long it takes to load an item from the database. On CPython, the items are deallocated and removed from the item cache immediately thanks to refcounting, but on PyPy a <code>gc.collect()</code> after creating the items is necessary to force them to be garbage collected. In addition, I increased the number of items to 100,000 and introduced the double benchmark run:
+
+
+
+[code]
+mithrandi@lorien&gt; python item-loading 15
+9.09668397903e-05
+mithrandi@lorien&gt; pypy item-loading 15
+5.70205903053e-05
+[/code]
+
+
+
+That's 90µs to load an item on CPython, and 57µs on PyPy, for a modest 37% speed increase.
+
+
+
+The fifth benchmark is <code>multiquery-creation 5 15</code>. This benchmark constructs (but does not run) an Axiom query involving 5 different types, each with 15 attributes (such a query requires Axiom to construct SQL that mentions each item table, and each column in those tables) 10,000 times. I increased the number of queries constructed to 100,000 and introduced the double benchmark run:
+
+
+
+[code]
+mithrandi@lorien&gt; python multiquery-creation 5 15
+5.5426299572e-05
+mithrandi@lorien&gt; pypy multiquery-creation 5 15
+7.98981904984e-06
+[/code]
+
+
+
+55µs to construct a query on CPython; 8µs on PyPy; 86% speed increase.
+
+
+
+The sixth benchmark is <code>query-creation 15</code>. This benchmark is the same as <code>multiquery-creation</code>, except for queries involving only a single item type. I increased the number of queries constructed to 1,000,000 and introduced the double benchmark run:
+
+
+
+[code]
+mithrandi@lorien&gt; python query-creation 15
+1.548528409e-05
+mithrandi@lorien&gt; pypy query-creation 15
+1.56546807289e-06
+[/code]
+
+
+
+15.5µs to construct a query on CPython; 1.6µs on PyPy; 90% speed increase.
+
+
+
+The final benchmark is <code>store-opening 20 15</code>. This benchmark simply times how long it takes to open a store containing 20 different item types, each with 15 attributes (opening a store requires Axiom to load the schema from the database, among other things). I increased the number of iterations from 100 to 10,000; due to a <a href="https://bugs.launchpad.net/divmod-axiom/+bug/1208092">bug in Axiom</a>, the benchmark will run out of file descriptors partway, so I had to work around this. I also introduced the double benchmark run:
+
+
+
+[code]
+mithrandi@lorien&gt; python store-opening 20 15
+0.00140788140297
+mithrandi@lorien&gt; pypy store-opening 20 15
+0.00202187280655
+[/code]
+
+
+
+1.41ms to open a store on CPython; 2.02ms on PyPy; 44% slowdown. I'm not sure what the cause of the slowdown is.
+
+
+
+A bzr branch containing all of my modifications is available at <code><a href="https://bazaar.launchpad.net/~mithrandi/divmod.org/pypy-benchmarking/files">lp:~mithrandi/divmod.org/pypy-benchmarking</a></code>.

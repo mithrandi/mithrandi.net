@@ -1,0 +1,28 @@
+This is a followup to a post I made about 1.5 years ago, <a href="https://mithrandi.net/blog/2013/08/axiom-benchmark-results-on-pypy/">benchmarking Axiom on PyPy 2.1.0</a>. Not too much has changed in Axiom since then (we fixed two nasty bugs that mainly affected PyPy, but I don't expect those changes to have had much impact on performance), but PyPy (now at 2.5.0) has had plenty of work done on it since then, so let's see what that means for Axiom performance!
+
+
+
+Unlike my previous post, I'm basically just going to show the results here without much commentary:
+
+
+
+<img src="https://docs.google.com/a/mithrandi.net/spreadsheet/oimg?key=0Aqhx69EOZxPFdGFfbjUzQldhUlpwYWJDUTlfdFAxVXc&oid=4&zx=m1u084kzaksu" alt="Graph of Axiom performance" />
+
+
+
+A few notes:
+
+<ul>
+
+	<li>I didn't redo the old benchmark results, but the hardware/software I ran the benchmarks on is not significantly different, so I think the results are still valid as far as broad comparisons go (as you can see, the CPython results match fairly closely).</li>
+
+	<li>The benchmark harness I'm using now is improved over the last time, using some statistical techniques to determine how long to run the benchmark, rather than relying on some hardcoded values to achieve JIT warmup and performance stability. Still could use some work (eg. outputting a kernel density estimate / error bars, rather than just a single mean time value).</li>
+
+	<li>There is one new benchmark relative to the last time, <code>powerup-loading</code>; PyPy really shines here, cutting out a ton of overhead. There's still room for a few more benchmarks of critical functions such as actually running and loading query results (as opposed to just constructing query objects).</li>
+
+	<li>The branch I used to run these benchmarks is <a href="https://github.com/twisted/axiom/tree/42-better-benchmarks">available on Github</a>.</li>
+
+        <li>The horizontal axis is cut off at 1.0 so you can't actually see how <code>store-opening</code> lines up, but the raw data shows that PyPy 2.1.0 took about 53% longer on this benchmark, whil PyPy 2.5.0 only takes about 2% longer.</li> 
+
+</ul>
+

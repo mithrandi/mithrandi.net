@@ -1,0 +1,57 @@
+<blockquote>Hope lies in the rubble of the rich fortress,
+
+taking today what tomorrow never brings.
+
+
+
+This is the new sound,
+
+just like the old sound,
+
+just like the noose wound,
+
+over the new ground.
+
+
+
+— Rage Against The Machine, <em>Ashes in the Fall</em></blockquote>
+
+NOTE: If you are reading this, you are on my <strong>new / current</strong> blog. Congratulations!
+
+
+
+So, uh, I have a new blog. Again. Yes, I know.
+
+
+
+Apparently it's just under two years since the <a href="http://mithrandi.net/blog/2008/04/cant-tell-my-truth-from-my-lies/">last time I did this</a>. Really? It seems like it should have been a lot longer than that. Oh well. Like that move, this one sucks in some ways; for one, there's no way to redirect my Vox blog to anything except another Vox blog. Also, I've been primarily linking to my Vox blog for the last year or two, and so there are a lot of hyperlinks scattered around that I'll have to try to change. Ugh.
+
+
+
+It's not all bad, though. I was able to import all of the content from my Vox blog. I'm also back on my own domain (and here to stay, I would imagine), and I'm even back at the same URL as my pre-Vox blog (the one with handwritten XHTML). I haven't yet imported the content from my pre-Vox blog, but that shouldn't be too hard. I also have much more control over the blog; while I'm unlikely to be touching PHP code any time soon, Wordpress + plugins is fairly configurable and manipulable on its own. I also plan to edit the theme templates so the output is marked up with hAtom, but that should be pretty easy too.
+
+
+
+If you're wondering what's up with this blog, it's running on a Linode I deployed just for this purpose. <a href="http://wordpress.org">Wordpress</a> is running on <a href="http://php-fpm.org/">PHP-FPM</a> behind <a href="http://nginx.org/">nginx</a>, using a MySQL database; the whole thing didn't take all that long to setup (although I had some help), and since there's nothing else running on the VM, I don't have to worry too much if it goes insane and consumes all available resources or something.
+
+
+
+I'm running a number of plugins:
+
+<ul>
+
+	<li><a href="http://akismet.com/">Akismet</a>: spam filtering is mandatory, of course.</li>
+
+	<li><a href="http://wordpress.org/extend/plugins/atom-default-feed/">Atom Default Feed</a>: because RSS is bloody awful.</li>
+
+	<li><a href="http://blog.sjinks.pro/wordpress-plugins/nginx-compatibility/">nginx Compatibility (PHP5)</a>: for better operation behind nginx.</li>
+
+	<li><a href="http://rpxwiki.com/WordpressPlugin">RPX</a>: this is what allows you to log in with Facebook, OpenID, etc. when you leave a comment.</li>
+
+</ul>
+
+Anyhow, so there you have it. Don't forget to update your subscriptions; although, since my new feed is at the same location as my pre-Vox feed, some of you might not need to. If you're looking for my old blog's content, then sorry; it's currently unavailable. I do intend to import the content, as well as get the old URLs working again, but I decided to rather get this online right away than wait until I sorted out all the details.
+
+
+
+EDIT: I forgot to mention that thanks needs to go to <a href="http://www.pierrenel.co.uk/">Pierre Nel</a>; without his invaluable assistance, this whole process would have been far more painful

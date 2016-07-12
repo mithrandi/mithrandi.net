@@ -1,0 +1,83 @@
+<div>
+
+
+
+Every now and then, I have to help someone understand some aspect of text encoding, Unicode, character sets, etc. and I've never come across a handy reference to which I could point people, so I figured I'd better write one myself.
+
+<h2>Encoding</h2>
+
+The first thing to realise is that basically all data storage is about encoding. You have some kind of underlying layer (stone tablets, papyrus, a hard drive, whatever) and you want to manipulate it in a way that lets you (or someone else) examine those manipulations and reconstruct the data; the manipulation phase is called "encoding", and the examination phase is called "decoding". Of course, there are many different ways to stuff some information onto the papyrus (or whatever your medium is); for example, if I want to encode the number 2644 to store it on a piece of paper, I can use Arabic numerals in decimal (2644), Arabic numerals in hexadecimal (0xA54), Roman numerals (MMDCXLIV), and so on. The same applies to all sorts of other encodings of other kinds of data; for example, if I want to store a picture in a file, I have to choose between image encodings such as PNG and GIF.
+
+
+
+All of these involve a common idea of some "abstract idea" (such as a number, or a picture), and a concrete encoding that is used to store that idea, and communicate it with others -- but of course, you cannot actually manipulate abstract ideas on a computer, so when you decode some data, in reality you are always encoding it into another encoding at the same time, otherwise you couldn't do anything about it. This may make the process seem a bit pointless, but we tend to build all sorts of useful abstractions in computers, and decoding data often allows you to move to a higher level of abstraction. For example, if you decode an image stored in PNG or GIF format, the result is a whole bunch of image pixel values, which you must still store in memory somehow; but you can use the same format regardless of whether those values came from a PNG file, a GIF file, or even a JPEG file.
+
+<h2>Text</h2>
+
+However, this post is about text, not other kinds of data, so let's fast forward to the good part. Computer memory is, on a basic level, a physical encoding of numbers. The smallest addressable slice of memory is typically 8 bits, or a byte. (Some obscure architectures work differently, but I'll exclude those from my discussion here, in the interests of sanity). As a collection of bits, the simplest way to treat a byte is as an 8-digit binary number, which gives us a range of values from 00000000 to 11111111 in binary, or 0 to 255 in decimal (0x00 to 0xFF in hex). From these simple building blocks, we can start building much larger structures; for example, if we wanted to store a larger number, we might use 32 bits (4 bytes), ordered in a <a href="http://en.wikipedia.org/wiki/Endianness">pre-agreed fashion</a>.
+
+<h2>ASCII</h2>
+
+But we want to store text, not numbers, so various encodings for text have also been developed over time; the <a href="http://en.wikipedia.org/wiki/ASCII">ASCII</a> encoding is probably the most well-known text encoding. It is a 7-bit encoding, meaning that only values in the range 0 through 127 are used (due to historical reasons, when the 8th bit was being used for other purposes, and thus unavailable to encode character information). ASCII is nothing more than a table mapping characters to numbers; if you have a text string of 5 characters, you look up the number for each character, and end up with a sequence of 5 numbers, which can be stored in 5 bytes of memory. Something to note here is that ASCII is both a character set (the list of characters it encodes) and an encoding (because it specifies a way to encode those characters as bytes); these two concepts are not always lumped together, as we'll see shortly.
+
+<h2>ISO 8859</h2>
+
+In a US/English-centric world, ASCII works pretty well, but once you go beyond that, you start running into difficulties: you need to use characters in your document that just aren't available in ASCII -- the character set is too small. At this point in history, the constraints on using the 8th bit were no longer relevant, which freed up an extra 128 values (128 - 255) for use; thus, a variety of new encodings sprung up (the ISO-8859-* family) that were just ASCII + region specific characters. If you only use ASCII characters, your text would be compatible with any of these encodings, so they are all "backwards compatible" in that sense; but there isn't generally any way to mix different encodings within the same document, so if you need to use extra characters from both ISO-8859-2 and ISO-8859-4, you still have problems. Also, there is still a vast host of characters (for example, the Chinese/Japanese/Korean characters) in use that aren't representable in *any* of these encodings. Today, the ISO-8859-1 encoding is most common in software / documents using one of these encodings, and often software is misconfigured to decode text in this format, even when some other encoding has been used.
+
+<h2>Unicode</h2>
+
+Enter Unicode and the Universal Character Set standard; you can read about the <a href="http://en.wikipedia.org/wiki/Universal_Character_Set#Differences_between_ISO_10646_and_Unicode">differences between Unicode and UCS</a> elsewhere, but I will just talk about Unicode here for the sake of simplicity. Among other things, the Unicode standard contains a vast character set; rather than the 128 or 256 characters of the limited character sets I've discussed so far, Unicode has over 100,000 characters, and specifies various attributes and properties of these characters which are often important when writing software to display them on screen or print them, as well as in other contexts. In addition, Unicode specifies several different encodings of this character set; unlike previous encodings I have mentioned, where character sets and encoding schemes went hand in hand, the Unicode character set simply assigns a number, or "codepoint" to each character, and then the various encoding schemes provide a mapping between codepoints and raw bytes.
+
+
+
+The main encodings associated with Unicode are <a href="http://en.wikipedia.org/wiki/UTF-8">UTF-8</a>, <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a>, and <a href="http://en.wikipedia.org/wiki/UTF-32">UTF-32</a>. UTF-8 is a variable-length encoding, which means that the number of bytes corresponding to each character varies; UTF-32 (and the UCS-4 encoding, which is essentially equivalent) is a fixed-length encoding that uses 32-bit integers (4 bytes) for each character, and thus raises endianness issues (the order in which the 4 bytes are written; and finally, UTF-16 is a complete mess, where codepoints under 2 ** 16 are stored as a 16-bit integer, and codepoints over that are stored as a pair of special reserved characters (called a surrogate pair) in the range below 2 ** 16 and then encoded like any other character in that range (UCS-2 is essentially the same, except it simply does not allow for any characters outside of the 16-bit range).
+
+<h2>Conclusion</h2>
+
+So, what does this all mean? Well, for one thing, if you're writing an application that handles text of any kind, you will need to decode the incoming text, and in order to do that correctly, you will need to know what encoding it was encoded with. If you're writing an HTTP server / web application, the information is provided in the HTTP header; if you're implementing some other protocol, hopefully it either specifies a particular encoding, or provides a mechanism for communicating the encoding to the other side. Also, if you're sending text to other people, you need to make sure you're encoding it with the correct encoding; if you say your HTML document is ISO-8859-1, but it's encoded with UTF-8, then someone is going to get garbage in their browser.
+
+<h2>Python</h2>
+
+There are different mechanisms for handling text in different languages / libraries, so consult the relevant documentation to find out what th
+
+e correct way to do it is in your particular environment, but as a bonus, I'm going to give a brief rundown of how it all works in Python. In Python, the 'str' type contains raw bytes, not text. The name of the type that stores text is 'unicode'; unsurprisingly, this type can only store characters that are present in the Unicode character set. Depending on how your Python interpreter was compiled, the unicode type uses either UTF-16 or UTF-32 internally to store the text, but you don't generally have to worry about this. To turn a str object into a unicode object, you need to decode with the correct decoding; for example:
+
+<pre>&gt;&gt;&gt; print 'Wei\xc3\x9fes Fleisch'.decode('utf-8')
+
+Weißes Fleisch
+
+&gt;&gt;&gt; print unicode('\x82\xb1\x82\xf1\x82\xc9\x82\xbf\x82\xcd\x81B', 'shift-jis')
+
+こんにちは。</pre>
+
+(Both ways of decoding are essentially equivalent.) Likewise, to turn a unicode object into a str object, encode with the correct encoding:
+
+<pre>&gt;&gt;&gt; u'Weißes Fleisch'.encode('utf-8')
+
+'Wei\xc3\x9fes Fleisch'</pre>
+
+Unfortunately, Python will automatically encode and decode strings for you under some circumstances, using the "default encoding", which should always be ascii. For example:
+
+<pre>&gt;&gt;&gt; 'foo' + u'bar'
+
+u'foobar'</pre>
+
+As you can see, Python has automatically decoded the first string before performing the concatenation. This is bad; if the string was not encoded in ASCII, then you will either get a UnicodeDecodeError exception, or garbage data:
+
+<pre>&gt;&gt;&gt; 'Wei\xc3\x9fes Fleisch' + u'haha'
+
+Traceback (most recent call last):
+
+  File "", line 1, in ?
+
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 3: ordinal not in range(128)</pre>
+
+To avoid this kind of problem, always encode and decode explicitly. You generally want to do this at abstraction boundaries; when you're handling incoming data, determine the correct encoding, and then decode there; then work with unicode objects within the guts of your application, and only encode the text again once you send it back out onto the network, or write it to a file, or otherwise output it in some fashion.
+
+
+
+UPDATE: Fixed a few typos / errors, and added some headings.
+
+
+
+</div>

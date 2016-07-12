@@ -1,0 +1,19 @@
+<blockquote>This isn't meant to last,
+
+this is for right now.
+
+— Nine Inch Nails, <em>Last</em></blockquote>
+
+Spent several hours this morning importing my old old blog posts into Wordpress; the import is now complete. Early on in the life of the blog, I began <a href="http://mithrandi.net/blog/2005/06/atom-feed-now-available/">generating an Atom feed</a> directly from my hand-written XHTML; later on, I changed my markup to use the <a href="http://microformats.org/wiki/hatom">hAtom</a> microformat, and ditched my custom transform in favour of <a href="http://rbach.priv.at/Microformats/hAtom2Atom/">hAtom2Atom</a>. I used this again to run a conversion over each month's posts, although I had to edit the oldest into hAtom form since they were using a custom class schema; just a trivial matter of assigning the correct classes. I then had to remove the doctype declaration from each page, because Saxon was failing to fetch the XHTMTL 1.1 DTD for some reason; since the DTD was completely unnecessary for this transform, I decided it would be easier to just ditch it.
+
+
+
+Now that I had the ability to generate an Atom feed for each page, the next trick was importing this into Wordpress somehow. Wordpress supports importing an RSS 2.0 feed, so I tracked down another transform to convert the Atom to RSS 2.0: <a href="http://atom.geekhood.net/">atom2rss-exslt.xsl</a>. After hacking it slightly to run on Saxon 6 (the decode-uri function detection doesn't work, since it checks for a later version of the Saxon processor), I had what looked like good RSS 2.0 output, which I imported. Unfortunately, this didn't work out so well; the tags weren't imported, and Wordpress inserts a &lt;br&gt; tag for each newline; since the output of the transform had a bunch of extraneous newlines, this meant that my posts were now littered with extraneous line breaks. I edited the transform to get rid of the newlines, but still wasn't very happy with this.
+
+
+
+So... plan B! Wordpress has an import/export format called Wordpress eXtended RSS; basically, RSS 2.0 plus a whole whack of custom Wordpress extension elements. I spent around an hour hacking the transform to generate WXR output. This was even more painful than it sounds; for example, encoded content is "supported" by stripping any CDATA section start/end markers, and then importing the content as-is. Even if there <em>wasn't</em> a CDATA section. I guess they only care about reading their own output.
+
+
+
+As a final touch, I hacked the transform a little more to insert an invisible anchor tag at the beginning of each post so that even my <a href="http://mithrandi.net/blog/2005/06#d06t2140">old permalinks</a> will work. This was fortunately quite easy to do, since my old URL scheme was year/month, which happens to be supported by Wordpress too; I just needed the anchors so that you would get taken to the correct post.

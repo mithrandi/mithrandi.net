@@ -1,0 +1,181 @@
+I'm a little bored, and the whole internet (well, at least the portion of it composed of Desire owners) seems to be going crazy waiting around for the <a href="http://www.engadget.com/2010/07/30/official-htc-rolling-out-android-2-2-and-720p-video-capture-to/">recently-announced</a> rolling out of the Android 2.2 update for the HTC Desire, so I thought I'd poke around a little in the OTA update process.
+
+
+
+<strong>UPDATE (2010/08/03):</strong> The update seems to be rolling out to most people, but some people still aren't getting it, even though they have unlocked/unbranded phones. From what I've been able to discover, HTC appears to be employing an IMEI "blacklist" of some kind; checkins with specific IMEI values fail to return the 2.2 update, but anything else (including completely invalid IMEI values) returns the update. I'm still not sure whether this is just their way of staggering the update, or if there is some other reason for withholding the update from the affected devices.
+
+
+
+<strong>UPDATE (2010/08/05):</strong> HTC now seems to either have a bad content server, or be in the process of pulling the update from their servers, including the update file itself <a href="http://liveimage.htc.com/OTA_Bravo_Froyo_HTC_WWE_2.09.405.8-1.21.405.2_release4dua3bcrut4wrv30.zip">on liveimage.htc.com</a>. If it is deliberate, I have no idea why they're doing it, and I can't currently find any information that sheds any light.
+
+
+
+The process seems to be relatively straightforward: when you hit "Check now", the phone sends an HTTP POST to http://andchin.htc.com/android/checkin (not https, thus all in the clear, making it easy for me to sniff :P), with a Content-Type of "org/x-json" (wat), and a JSON-encoded payload. The payload looks as follows (I've pretty-printed it and stripped personal identifiers, but it's still good enough to get a response):
+
+
+
+[javascript]
+
+{
+
+  &quot;locale&quot;: &quot;en_GB&quot;,
+
+  &quot;checkin&quot;: {
+
+    &quot;build&quot;: {
+
+      &quot;product&quot;: &quot;bravo&quot;,
+
+      &quot;serialno&quot;: &quot;HTXXXXXXXXXX&quot;,
+
+      &quot;changelist&quot;: &quot;174215&quot;,
+
+      &quot;build_type&quot;: &quot;user&quot;,
+
+      &quot;carrier&quot;: &quot;htc_wwe&quot;,
+
+      &quot;radio&quot;: &quot;32.36.00.28U_4.06.00.02_2&quot;,
+
+      &quot;firmware_version&quot;: &quot;1.21.405.2 CL174215 release-keys&quot;,
+
+      &quot;bootloader&quot;: &quot;0.80.0000&quot;,
+
+      &quot;id&quot;: &quot;htc_wwe/htc_bravo/bravo/bravo:2.1-update1/ERE27/174215:user/release-keys&quot;,
+
+      &quot;revision&quot;: &quot;129&quot;
+
+    }
+
+  },
+
+  &quot;model_number&quot;: &quot;HTC Desire&quot;,
+
+  &quot;logging_id&quot;: 0,
+
+  &quot;imei&quot;: &quot;&quot;,
+
+  &quot;id&quot;: 0,
+
+  &quot;digest&quot;: &quot;8fccfd93dcbe837d072e5f1494da2&quot;
+
+}
+
+[/javascript]
+
+
+
+Note the "carrier" value there; this is "htc_wwe" for phones that are not carrier-locked / otherwise carrier-customized. If you had a Sprint phone, for example, this would be "sprint". I believe this value is ultimately determined by the the "androidboot.carrier" kernel parameter passed to the kernel by the boot loader.
+
+
+
+I'm not sure what "digest" is of; it is 29 hex digits long, which doesn't make any sense for a cryptographic digest. It doesn't <em>seem</em> to be a personal identifier of any kind, though; if you modify it, you get some "upload crash" response back, which contains (among other things) the correct digest, so I can only guess that it corresponds to the product information in some way. I'll be interested to see if it changes once I have the new update installed.
+
+
+
+The response that comes back looks like this:
+
+
+
+[javascript]
+
+{&quot;time_msec&quot;:&quot;1280538364433&quot;,&quot;stats_ok&quot;:true,&quot;intent&quot;:[{&quot;action&quot;:&quot;android.server.checkin.FOTA_CANCEL&quot;}]}
+
+[/javascript]
+
+
+
+The "intent" part will probably be obvious to Android developers (it's specifying what the UI should do next), and time_msec is a UNIX timestamp in milliseconds, corresponding to the time the response was sent.
+
+
+
+If an update *is* available, the response looks like this instead:
+
+
+
+[javascript]
+
+{
+
+  &quot;stats_ok&quot;: true,
+
+  &quot;intent&quot;: [
+
+    {
+
+      &quot;action&quot;: &quot;android.server.checkin.FOTA_UPDATE&quot;,
+
+      &quot;data_uri&quot;: &quot;http://liveimage.htc.com/OTA_Bravo_HTC_WWE_1.21.405.2-1.15.405.4_release_P4ohim1mtp6zggcyon.zip&quot;,
+
+      &quot;extra&quot;: [
+
+        {
+
+          &quot;name&quot;: &quot;promptMessage&quot;,
+
+          &quot;value&quot;: &quot;System Upgrade&quot;
+
+        },
+
+        {
+
+          &quot;name&quot;: &quot;promptFeature&quot;,
+
+          &quot;value&quot;: &quot;Update:HTC application improvement&quot;
+
+        },
+
+        {
+
+          &quot;name&quot;: &quot;promptVersion&quot;,
+
+          &quot;value&quot;: &quot;System upgrade1.21.405.2 (27.07 MB)We would recommend using a free Wi-Fi hotspot or an unlimited data plan to apply this update. If not, standard data connection charges may apply. Any questions? Contact us via http://www.htc.com/www/CA_Hotline.aspx&quot;
+
+        },
+
+        {
+
+          &quot;name&quot;: &quot;promptSize&quot;,
+
+          &quot;value&quot;: &quot;27.07 MB&quot;
+
+        },
+
+        {
+
+          &quot;name&quot;: &quot;promptMinutes&quot;,
+
+          &quot;value&quot;: &quot;30,...&quot;
+
+        },
+
+        {
+
+          &quot;name&quot;: &quot;timeoutSeconds&quot;,
+
+          &quot;value&quot;: &quot;120&quot;
+
+        },
+
+        {
+
+          &quot;name&quot;: &quot;force_update&quot;,
+
+          &quot;value&quot;: &quot;false&quot;
+
+        }
+
+      ]
+
+    }
+
+  ],
+
+  &quot;time_msec&quot;: &quot;1280513282008&quot;
+
+}
+
+[/javascript]
+
+
+
+Now, it seems as if they are planning to do a rolling release of the 2.2 update, somehow. I assume this means that they will only be responding with the updated version to some requests, but I don't know exactly what mechanism they'll be using to do that. Oh well...

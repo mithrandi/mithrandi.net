@@ -1,0 +1,43 @@
+<a name="d21t2238"></a><div>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/dns"><img src="/images/techtag" alt="[tag]"> dns</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/howto"><img src="/images/techtag" alt="[tag]"> howto</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/glue"><img src="/images/techtag" alt="[tag]"> glue</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/delegation"><img src="/images/techtag" alt="[tag]"> delegation</a></li>
+
+        </ul>
+
+        <p>One of the most serious design flaws in DNS today, is the decision to use hostnames in NS records, instead of IP addresses. Why? Because it has the potential to massively complexify the chain of DNS queries a recursive resolver has to follow in order to resolve a particular name.</p>
+
+
+
+        <p>Let's say you type <code>http://www.google.com/</code> into your web browser. Your web browser hands the address <code>www.google.com</code> to the resolver library; it will generally end up making a recursive query to your ISP's caching resolver. This is where all the hard work happens. The resolver starts by sending a query for <code>A www.google.com</code> to one of the root nameservers; it will then respond with the list of NS records corresponding to the servers hosting the <code>.com</code> TLD. The resolver will then repeat the query to one of these servers, and so on until it arrives at a server that is authoritative for <code>www.google.com</code>, which it has determined by following the chain of delegations in the form of NS records, and by getting an authoritative response from a server it queries.</p>
+
+
+
+        <p>So, that may seem simple enough; however there's one snag here: NS records contain hostnames, and not IP addresses, so when the resolver receives an NS record containing a particular hostname, it then needs to perform a separate lookup, starting the process all over again. This second lookup could, in turn, require a third lookup to be performed for hostnames encountered during the second query, and so on. If this were the whole story, it would actually never be possible to resolve these NS records, because there would be no way to locate the server containing the A records for those servers in the first place.</p>
+
+
+
+        <p>Enter delegations with "glue"; a DNS query response has multiple sections, one of which is particularly important here: the "additional" section. This section contains records that, while not directly part of the records requested, may be helpful in using the records returned in the other sections of the response. This allows for returning A records for the hostnames specified in the NS records returned, thus providing a way for the resolver to avoid making a secondary lookup. Unfortunately, this is only possible under certain circumstances: if your DNS server is authoritative for <code>google.com</code> (by way of an NS record served up by the .com servers), you can return records relating to google.com, and any domain "below" it, such as <code>quux.google.com</code>. Resolvers recognize that your server is authoritative for these names, because they have followed the chain of NS records starting at the root. So, if you return a record like <code>ns1.google.com 172800 A 216.239.32.10</code> in the additional section, resolvers will accept (and cache) this, and be able to avoid a secondary lookup of <code>ns1.google.com</code>. However, if your NS records point at some other address, such as <code>ns1.yendor.net</code>, even if you return records providing an address for <code>ns1.yendor.net</code>, resolvers *must* ignore these records, as your server is not authoritative for <code>yendor.net</code>, or anything above it. Thus, there is no way to avoid the secondary lookup; these cases are referred to as "glueless" delegations.</p>
+
+
+
+        <p>So, to summarize: delegations with glue are almost as good as having IP addresses in NS records, as they avoid a secondary lookup for the hostname specified in the NS record. Glueless delegations, however, do require a secondary lookup, leading to situations where a convoluted chain of delegations must be followed and many queries made in order to look up a name. This leads to increased vulnerability to attack: compromising any server along the chain gives you the ability to influence the final result, by directing the resolver to servers under your control. In addition, the increased number of queries can lead to timeouts due to the length of time it takes to get all of the responses. To see an example of how bad this situation can become, I've prepared transcripts simulating what a resolver has to do in order to look up a particular domain name: <a href="/technical/dns/insanity">dns insanity</a> and <a href="/technical/dns/sanity">dns sanity</a>. Also, the level of indirection along the chain may change at any time, as presumably the other names along the chain are not directly under your control (otherwise you wouldn't have used a glueless delegation in the first place); an additional level of gluelessness might be added, causing longer delays and possibly failures, without you realising until users start complaining.</p>
+
+
+
+        <p>There are a few reasons you might want to use glueless delegations; probably the most common is the case where a third party is providing all of your DNS servers, or at least providing backup servers. In this case, they probably already have a hostname for their servers, and you may wish to simply use this, rather than copying their IP address into your record data. The simplest way around this is to do just that; copy their address into your data. DNS server addresses should usually be quite stable, so you shouldn't have to worry too much about the address changing; just make sure the third-party provider notifies you of any such changes when they are to occur. Another way would be to have an automated process (either built into your DNS server, or as a separate service) that caches the address, looks it up again (using a normal simple recursive query), and updates the DNS server data if the address changes. This is effectively what resolvers have to do anyway with a glueless delegation, but this way it is only your server doing it, rather than hundreds, thousands, or millions of resolvers around the internet. Both of these solutions require a little more work on the DNS admin's end, but improve the efficiency and reliability of your DNS data publication.</p>
+
+
+
+        <p>So please, think of the childr... err... dns resolvers, and use glueless delegations.</p>
+
+    </div>

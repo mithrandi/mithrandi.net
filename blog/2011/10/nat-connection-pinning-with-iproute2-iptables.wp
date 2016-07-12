@@ -1,0 +1,126 @@
+My home network has a somewhat complicated setup where I have multiple PPPoE sessions across my ADSL connection, with various different ISPs. This allows me to take advantage of varying ISP properties such as cost and latency, by routing different traffic over different connections. Naturally, each of these connections only affords me a single IPv4 address, so I make use of NAT to allow the rest of my network access to the Internet. A potential problem arises, however, when connections go down and come back up. In the simple case, with only one connection, <code>MASQUERADE</code> takes care of all the details; when the interface goes down, all of the NAT entries associated with the connection are removed, so when it comes back up, it's not a problem that your IP address has changed, because all of the NAT entries associated with the old address are gone. This works just as well in the multiple connections scenario; if an interface goes down resulting in traffic being routed over another interface, all of the old NAT entries have been dropped, so new ones will be established associated with the interface they are now travelling over. The problem arises when the interface that went down comes back up; traffic will now be routed over the first interface again, while still being rewritten to the second interface's address, and this traffic is almost guaranteed to be dropped by either your ISP, or their upstream provider.
+
+
+
+What's the solution? Well, if you absolutely definitely want to start routing traffic over the first interface as soon as it comes back up, you're going to need to flush the associated conntrack NAT entries as soon as it comes up, and let all your users reconnect (since their connections will be interrupted); I'm not entirely sure how to do this. In my case, however, I'm more concerned with maintaining existing connections without interruption, even if that means continuing to route them over the "wrong" interface. This also applies to incoming connections; ordinarily if somebody tries to establish a connection to the public IP address of one of your connections, they will need to connect to the same interface that outbound traffic to them would be routed over, which can be somewhat inconvenient.
+
+
+
+My solution is something I'm going to call "connection pinning". The idea is that once an outbound interface has been selected for a particular connection (by the Linux routing table), we "pin" the connection to that interface, so that traffic associated with that connection always travels over that interface even if the routing table changes. In order to achieve this, we can use a combination of Linux policy routing (<code>ip rule</code>), as well as firewall / conntrack packet marking. When a connection is first established, we set a <code>connmark</code>, which is a value stored in the conntrack table entry for that connection. In the case of an incoming connection, we set the mark based on the interface the packet arrived on; in the case of an outgoing connection, we set the mark in <code>POSTROUTING</code> based on the outbound interface already selected by the routing table. Then, for future outgoing traffic associated with that connection (as determined by conntrack), we set an <code>fwmark</code> based on the <code>connmark</code>, and bypass the normal routing table using policy rules for traffic marked thusly.
+
+
+
+This is implemented in three parts. Firewall rules added using <code>iptables</code>, for the netfilter/conntrack bits; an <code>ip-up</code> script for establishing policy rules and routes when a PPP connection is established; and an <code>ip-down</code> script for flushing them again when the PPP connection is terminated.
+
+
+
+First, the firewall rules (using the excellent <code>ferm</code> tool):
+
+[code]
+@def $DEV_PRIVATE = eth0;
+@def $NET_PRIVATE_V4 = 10.0.0.0/24;
+
+domain ip table mangle {
+    # Only match new connections; established connections should
+    # already have a connmark, which should not be overwritten.
+    chain (INPUT FORWARD) {
+        # Unfortunately the set-mark rules need to be duplicated for
+        # each ppp interface we have.
+        mod conntrack ctstate NEW {
+            interface ppp0 CONNMARK set-mark 1;
+            interface ppp1 CONNMARK set-mark 2;
+            interface ppp2 CONNMARK set-mark 3;
+            interface ppp3 CONNMARK set-mark 4;
+            interface ppp4 CONNMARK set-mark 5;
+        }
+    }
+    chain POSTROUTING {
+        mod conntrack ctstate NEW {
+            outerface ppp0 CONNMARK set-mark 1;
+            outerface ppp1 CONNMARK set-mark 2;
+            outerface ppp2 CONNMARK set-mark 3;
+            outerface ppp3 CONNMARK set-mark 4;
+            outerface ppp4 CONNMARK set-mark 5;
+        }
+    }
+    chain PREROUTING {
+        # Copy the connmark to the fwmark in order to activate the
+        # policy rules for connection pinning. Only do this for
+        # traffic originating from the local network; other traffic
+        # (such as traffic going *to* the local network) should be
+        # left unmodified, to allow return traffic to be routed over
+        # the correct interface.
+
+        interface $DEV_PRIVATE daddr ! $NET_PRIVATE_V4 CONNMARK restore-mark;
+    }
+    chain OUTPUT {
+        # Same as above, but for locally originating traffic.
+
+        daddr ! $NET_PRIVATE_V4 CONNMARK restore-mark;
+    }
+}
+
+# I am assuming you already have something like this:
+domain ip table nat {
+    chain POSTROUTING outerface (ppp0 ppp1 ppp2 ppp3 ppp4) MASQUERADE;
+}
+[/code]
+
+
+
+If you're not using ferm, here's what the raw <code>iptables</code> commands would be (these are exactly what ferm will install given the above, so this is just more verbose):
+
+[code]
+iptables -t mangle -A FORWARD --match conntrack --ctstate NEW --in-interface ppp0 --jump CONNMARK --set-mark 1
+iptables -t mangle -A FORWARD --match conntrack --ctstate NEW --in-interface ppp1 --jump CONNMARK --set-mark 2
+iptables -t mangle -A FORWARD --match conntrack --ctstate NEW --in-interface ppp2 --jump CONNMARK --set-mark 3
+iptables -t mangle -A FORWARD --match conntrack --ctstate NEW --in-interface ppp3 --jump CONNMARK --set-mark 4
+iptables -t mangle -A FORWARD --match conntrack --ctstate NEW --in-interface ppp4 --jump CONNMARK --set-mark 5
+iptables -t mangle -A INPUT --match conntrack --ctstate NEW --in-interface ppp0 --jump CONNMARK --set-mark 1
+iptables -t mangle -A INPUT --match conntrack --ctstate NEW --in-interface ppp1 --jump CONNMARK --set-mark 2
+iptables -t mangle -A INPUT --match conntrack --ctstate NEW --in-interface ppp2 --jump CONNMARK --set-mark 3
+iptables -t mangle -A INPUT --match conntrack --ctstate NEW --in-interface ppp3 --jump CONNMARK --set-mark 4
+iptables -t mangle -A INPUT --match conntrack --ctstate NEW --in-interface ppp4 --jump CONNMARK --set-mark 5
+iptables -t mangle -A POSTROUTING --match conntrack --ctstate NEW --out-interface ppp0 --jump CONNMARK --set-mark 1
+iptables -t mangle -A POSTROUTING --match conntrack --ctstate NEW --out-interface ppp1 --jump CONNMARK --set-mark 2
+iptables -t mangle -A POSTROUTING --match conntrack --ctstate NEW --out-interface ppp2 --jump CONNMARK --set-mark 3
+iptables -t mangle -A POSTROUTING --match conntrack --ctstate NEW --out-interface ppp3 --jump CONNMARK --set-mark 4
+iptables -t mangle -A POSTROUTING --match conntrack --ctstate NEW --out-interface ppp4 --jump CONNMARK --set-mark 5
+iptables -t mangle -A PREROUTING --in-interface eth0 ! --destination 10.0.0.0/24 --jump CONNMARK --restore-mark
+iptables -t mangle -A OUTPUT ! --destination 10.0.0.0/24 --jump CONNMARK --restore-mark
+
+iptables -t nat -A POSTROUTING --out-interface ppp0 --jump MASQUERADE
+iptables -t nat -A POSTROUTING --out-interface ppp1 --jump MASQUERADE
+iptables -t nat -A POSTROUTING --out-interface ppp2 --jump MASQUERADE
+iptables -t nat -A POSTROUTING --out-interface ppp3 --jump MASQUERADE
+iptables -t nat -A POSTROUTING --out-interface ppp4 --jump MASQUERADE
+[/code]
+
+
+
+Next, the <code>ip-up</code> script (to be placed in <code>/etc/ppp/ip-up.d/</code> and made executable):
+
+[code]
+#!/bin/sh
+TABLE=&quot;$PPP_IFACE&quot;
+MARK=$((${PPP_IFACE##ppp} + 1))
+ip rule del lookup "$TABLE"
+ip route flush table "$TABLE"
+ip route add default dev "$PPP_IFACE" table "$TABLE"
+ip rule add fwmark "$MARK" table "$TABLE"
+[/code]
+
+
+
+Finally, the <code>ip-down</code> script (to be placed in <code>/etc/ppp/ip-down.d/</code> and made executable):
+
+[code]
+#!/bin/sh
+TABLE="$PPP_IFACE"
+ip rule del lookup "$TABLE"
+ip route flush table "$TABLE"
+[/code]
+
+
+
+There are a couple of changes you will need to make to adapt these for your own network. In particular, you'll need to duplicate the <code>pppN</code> <code>iptables</code> rules for each of the PPP interfaces you want to apply this to. Also, if you are already doing packet marking for some other reason, you'll need to change the fwmark values I've used to ones that don't interfere with your existing marks. I suspect there's a better way to only mark outbound traffic than what I do above, but I wasn't able to figure it out. If you have any improvements to suggest, feel free to mention them in the comments; I will try to keep this post updated with any improvements I make (either on my own, or based on other people's suggestions).

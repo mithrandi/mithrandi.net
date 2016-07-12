@@ -1,0 +1,63 @@
+<a name="d04t1717"></a><div>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/darcs"><img src="/images/techtag" alt="[tag]"> darcs</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/windows"><img src="/images/techtag" alt="[tag]"> windows</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/putty"><img src="/images/techtag" alt="[tag]"> putty</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/howto"><img src="/images/techtag" alt="[tag]"> howto</a></li>
+
+        </ul>
+
+        <p><a href="http://mbvdl.net/">Marlon</a> <a href="http://mbvdl.net/wordpress/2005/08/02/version-control/">blogged</a> about the difficulties of using <a href="http://darcs.net/">Darcs</a> under Windows, especially setting ssh up. I had to get Darcs up and running on my windows workstation at work earlier this afternoon, so I figured I'd post a little HOWTO here for everyone's benefit.</p>
+
+
+
+        <p>First of all, you need a win32 binary for Darcs; while you could compile it yourself, the easy way out is to get a build from <a href="http://glozer.net/darcs/">Will Glozer's site</a>.</p>
+
+
+
+        <p>Now, if you just want to use Darcs over NetBIOS, this is all you need. Just stick darcs.exe somewhere on your %PATH%, and then you can happily tell Darcs to push to a UNC path (eg. darcs push \\fooserver.local\cdrive\path\to\repo) and work like that. However, if you want ssh support, then you'll need to do a little more work.</p>
+
+
+
+        <p>First of all, you'll want the following binaries from the PuTTY "suite":</p>
+
+
+
+        <ul>
+
+            <li><a href="http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe">PuTTY</a></li>
+
+            <li><a href="http://the.earth.li/~sgtatham/putty/latest/x86/pscp.exe">PSCP</a></li>
+
+            <li><a href="http://the.earth.li/~sgtatham/putty/latest/x86/psftp.exe">PSFTP</a></li>
+
+            <li><a href="http://the.earth.li/~sgtatham/putty/latest/x86/plink.exe">Plink</a></li>
+
+            <li><a href="http://the.earth.li/~sgtatham/putty/latest/x86/puttygen.exe">PuTTYgen</a></li>
+
+        </ul>
+
+
+
+        <p>Once you have these, place them somewhere on your %PATH%, and do a little renaming: rename pscp.exe to scp.exe, psftp.exe to sftp.exe, and plink.exe to ssh.exe - these are the command names Darcs expects to have available.</p>
+
+
+
+        <p>This will be enough to let you push/pull/get/etc. over ssh, but you'll soon get tired of typing out your password 34345234345 times, so you probably want to setup public key auth for ssh. To do this, first run puttygen.exe to generate a keypair. The default options that it starts with should be fine, so just kick off the generation process, and follow the instructions. When you've generated the keypair, save the private key wherever you want, and then copy the "known_hosts format" line out. Place it on a line by itself in ~/.ssh/authorized_keys on the ssh server (create the file if it doesn't already exist), and then make sure the permissions on the file are correct. Run chmod 600 ~/.ssh/authorized_keys if you're not sure; the reason for this is that ssh is very picky about the permissions of your configuration files.</p>
+
+
+
+        <p>You could now use <a href="http://the.earth.li/~sgtatham/putty/latest/x86/pageant.exe">pageant</a> to manage the use of your private key, but an easier way is to create a profile in PuTTY with the same name as your ssh host; go select your private key at SSH -> Auth -> Private Key file for Authentication, fill in the same info for the hostname and profile name on the first config section, and then save the profile. The command-line tools will now use this profile when connecting to that hostname, thus avoiding the need to type in your password over and over again. (Note that anyone that gets access to your private key can now access your account, so be aware of the potential security issues.) Also, bear in mind that if you want to setup Darcs/PuTTY on another system, you could just copy your private key over to it, rather than generating a new one.</p>
+
+
+
+        <p>For convenience (mostly my own), I have prepared a <a href="/files/darcs-1.0.3-putty-0.58.zip">handy package</a> of all of the files mentioned above; you may prefer to download it rather than download each binary separately.</p>
+
+    </div>

@@ -1,0 +1,19 @@
+<a name="d06t2140"></a><div>
+
+        <p>I now have an ATOM <a href="/blog/feed">feed</a> available. It's a static file same as this XHTML document, but I generate it from the XHTML via XSLT. You can take a look at the <a href="/blog/atom">transformation</a> if you're interested. I'm using the <a href="http://saxon.sourceforge.net/">Saxon XSLT processor</a> to do the processing. Let me know if you have any suggestions; I'm sure there's room for improvement, but I think it's good enough to put online already.</p>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/blogging"><img src="/images/techtag" alt="[tag]"> blogging</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/xslt"><img src="/images/techtag" alt="[tag]"> xslt</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/xslt2"><img src="/images/techtag" alt="[tag]"> xslt2</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/atom"><img src="/images/techtag" alt="[tag]"> atom</a></li>
+
+        </ul>
+
+    </div>

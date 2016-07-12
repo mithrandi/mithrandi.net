@@ -1,0 +1,25 @@
+<a name="d12t2005"></a><div>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/blogging"><img src="/images/techtag" alt="[tag]"> blogging</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/business"><img src="/images/techtag" alt="[tag]"> business</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/Dosage"><img src="/images/techtag" alt="[tag]"> Dosage</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/coding"><img src="/images/techtag" alt="[tag]"> coding</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/databases"><img src="/images/techtag" alt="[tag]"> databases</a></li>
+
+        </ul>
+
+        <p>Well, as you can see, not blogging. <a href="http://karnaugh.za.net/">Colin</a> thinks I'm <a href="http://karnaugh.za.net/show?id=121">missing the point</a> of a blog; well, maybe I am. I still have better hopes for this blog than I have for some of the attempts I've made in the past.</p><p>Anyway, I haven't been very active on my public projects; about the only really visible one is <a href="http://slipgate.za.net/dosage">Dosage</a>, and that's been fairly stable lately. There continue to be various contributions from the community (thanks <a href="http://trac.slipgate.za.net/dosage/wiki/PeopleWhoCare">people</a>!) but otherwise no major developments. I guess there's nothing wrong with that, though. I've also been taking some time out to focus on other things to a degree; spending time with my family, for example.</p>
+
+        <p>Otherwise most of my programming energy has been focused on getting the replacement system up and running for something at work. The way things are going, if I don't make it happen myself, it'll never happen; then again, that's also not such a bad thing. I'm quite happy with the way things are turning out, and that I'm not having to fight with my tools all the time. I'm using <a href="http://python.org/">Python</a>, <a href="http://twistedmatrix.com/">Twisted</a>, <a href="http://nevow.com/">Nevow</a>, and <a href="http://postgresql.org/">PostgreSQL</a> (via <a href="http://www.jamwt.com/pgasync/">pgasync</a>) on this one, and it seems to be working pretty well. I would probably have preferred to use an object database, but SQL isn't so bad.</p>
+
+        <p>Anyway, we'll see how long it is until my next blogging spree (this is probably the first of a few in succession, I have some other things in my mind); hopefully not too long...</p>
+
+    </div>

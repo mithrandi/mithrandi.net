@@ -1,0 +1,31 @@
+<h2>Introduction</h2>
+
+In case you missed the news, <a href="http://google-africa.blogspot.com/2011/08/google-maps-navigation-beta-for-mobile.html">Google Maps Navigation (Beta) for Mobile</a> is now available in South Africa. I tried it out briefly, and thought I'd offer some thoughts on how it compares to the primary navigation software I use, <a href="http://www.waze.com/">Waze</a>. Note that as an Android user (HTC Desire HD), this review will be fairly Android-specific. If you're using an iPhone, please write your own review and let me know; if you're using something else, please join the rest of us in the 21st century.
+
+<h2>Integration</h2>
+
+Navigation is part of the Google Maps application; as one of the core Google apps that virtually every Android phone ships with, it's well integrated with the rest of the system, and in particular, with Maps / Places / People. Waze isn't quite as well integrated; for example, there's no easy way to grab a location out of  Places and have Waze navigate to it.
+
+<h2>Voice prompts</h2>
+
+These are generated entirely via TTS, using the system-configured speech engine. This is great for road names, not so great for actually being able to comprehend the prompts; I wish they had taken the Garmin approach, and only used TTS for the road names and such, not everything. By comparison, Waze only uses pre-recorded voice prompts, although they are currently testing out TTS functionality as well (I don't have access to that, so I don't yet know how it compares). As far as the actual prompting goes, they seem to be about equal in terms of usefulness.
+
+<h2>Map data</h2>
+
+This is a bit harder to quantify, as the quality and coverage of map data for both Waze and Google Maps varies drastically depending on where exactly you are in the country. In general, Google Maps has much more complete data; on the other hand, it tends to be several years or more out of date. In areas with active Area Managers on Waze, coverage is likely to be far more accurate, even going so far as to include temporary road detours during construction and so on. As such, your mileage may (and very likely will) vary.
+
+<h2>Routing</h2>
+
+Waze definitely wins this one, assuming you're navigating in an area where the map is actually sufficiently complete to allow for sensible routing. Waze tracks the average travel time along each road segment and uses this as part of its routing calculations. In addition, if there is sufficient data, it seems that this will even be broken down by day of week / time of day, so Waze knows that what might be a crawling disaster at 4pm is actually smooth sailing at lunchtime. In addition, speed data is also handled in real-time; so if there's a traffic jam right now, and some Waze users are stuck in it, it'll detect that the average speed *right now* is much lower than it usually is, and route you around the problematic road segments if appropriate. Google Maps, by comparison, has a real-time traffic layer which can be used for routing decisions, but there currently seems to be no traffic data for South Africa, and I'm not sure if this information is used at all for long-term routing decisions. Even if it is, it'll take a while for them to catch up with the existing data that has already been built up by Waze, so I guess we'll have to see how that works out.
+
+<h2>Display / UI</h2>
+
+Google Maps wins this one. While driving, you can have the satellite layer displayed for the map, not just the road layer, which makes it a lot easier to match the map to what you're seeing out of your windscreen, assuming the map isn't horribly out of date. In addition, once you're making your final approach to the destination, it will show you a Street View image of the destination, making it much easier to find the exact place you're looking for, instead of trying to estimate distances on a map. By comparison, Waze offers only the usual abstract road map; this works, of course, but could be better.
+
+<h2>Crowdsourcing</h2>
+
+In addition to using average speed data collected from users for routing decisions, Waze also does things like adjusting road segment positions, and toggling road directions (1-way to 2-way and vice-versa) automatically, based on collected driving data. Occasionally this results in errors, but it mostly saves a lot of work on the part of map editors who would otherwise have to manually fix the map up. There's also the ability to report accidents, traffic cameras, potholes, speed traps, roadblocks, and so on, which other users will be able to see and avoid. Google Maps doesn't really have anything similar, other than the real-time traffic info.
+
+<h2>Conclusion</h2>
+
+I'll be sticking with Waze, for now; the real-time and routing functionality, as well as the ability to fix up the map myself, easily makes up for any of the other disadvantages. If Google Maps grows to encompass the functionality and userbase of Waze, this would definitely tip the scales in its favour, but that doesn't look like it's going to happen any time soon.

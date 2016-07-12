@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:date="http://exslt.org/dates-and-times" version="2.0">
+   <channel>
+      <language>en</language>
+      <description><![CDATA[mithrandi.linenoise]]> (converted from Atom 1.0)
+          </description>
+      <pubDate>Mon, 06 Jun 2005 23:40:00 GMT
+</pubDate>
+      <link>http://mithrandi.net/blog/2005/06.xhtml</link>
+      <title><![CDATA[mithrandi.linenoise]]></title>
+      <item>
+         <description>&lt;div&gt;
+        &lt;p&gt;I now have an ATOM &lt;a href="/blog/feed"&gt;feed&lt;/a&gt; available. It's a static file same as this XHTML document, but I generate it from the XHTML via XSLT. You can take a look at the &lt;a href="/blog/atom"&gt;transformation&lt;/a&gt; if you're interested. I'm using the &lt;a href="http://saxon.sourceforge.net/"&gt;Saxon XSLT processor&lt;/a&gt; to do the processing. Let me know if you have any suggestions; I'm sure there's room for improvement, but I think it's good enough to put online already.&lt;/p&gt;
+        &lt;h4 class="tags"&gt;tags:&lt;/h4&gt;
+        &lt;ul class="tags"&gt;
+            &lt;li&gt;&lt;a rel="tag" href="http://technorati.com/tag/blogging"&gt;&lt;img src="/images/techtag" alt="[tag]"&gt; blogging&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a rel="tag" href="http://technorati.com/tag/xslt"&gt;&lt;img src="/images/techtag" alt="[tag]"&gt; xslt&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a rel="tag" href="http://technorati.com/tag/xslt2"&gt;&lt;img src="/images/techtag" alt="[tag]"&gt; xslt2&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a rel="tag" href="http://technorati.com/tag/atom"&gt;&lt;img src="/images/techtag" alt="[tag]"&gt; atom&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;</description>
+         <title><![CDATA[ATOM feed now available]]></title>
+         <guid>http://mithrandi.net/blog/2005/06.xhtml#d06t2140</guid>
+         <link>http://mithrandi.net/blog/2005/06.xhtml#d06t2140</link>
+         <pubDate>Mon, 06 Jun 2005 23:40:00 GMT
+</pubDate>
+         <category domain="http://technorati.com/tag/">blogging<!-- blogging--></category>
+         <category domain="http://technorati.com/tag/">xslt<!-- xslt--></category>
+         <category domain="http://technorati.com/tag/">xslt2<!-- xslt2--></category>
+         <category domain="http://technorati.com/tag/">atom<!-- atom--></category>
+      </item>
+      <item>
+         <description>&lt;div&gt;
+        &lt;div class="poem"&gt;
+        &lt;p&gt;My mind, like a mirror, reflects the shadow
+as death and darkness steal my countenance;
+deeper and deeper into the whirlpool
+my self is lost in the all of none.&lt;/p&gt;
+
+&lt;p&gt;The deathly swirl of blackest night
+gives way to ghostly horrors of grey;
+arrows of fate, arrows of fear,
+arrows of pain, descend through my veins.&lt;/p&gt;
+
+&lt;p&gt;A piercing cry transfixes my soul,
+and--rushing through my outward self--
+it shatters that which once was formed,
+and forms anew what never was.&lt;/p&gt;
+
+&lt;p&gt;With shadows surrounding I am reborn;
+of loss, of fear, of pain, of flame;
+from life destroyed, and life abhorred,
+and fragments of dreams once lived.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;h4 class="tags"&gt;tags:&lt;/h4&gt;
+        &lt;ul class="tags"&gt;
+            &lt;li&gt;&lt;a rel="tag" href="http://technorati.com/tag/poem"&gt;&lt;img src="/images/techtag" alt="[tag]"&gt; poem&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;</description>
+         <title><![CDATA[A dream once forgotten]]></title>
+         <guid>http://mithrandi.net/blog/2005/06.xhtml#d06t1908</guid>
+         <link>http://mithrandi.net/blog/2005/06.xhtml#d06t1908</link>
+         <pubDate>Mon, 06 Jun 2005 21:09:00 GMT
+</pubDate>
+         <category domain="http://technorati.com/tag/">poem<!-- poem--></category>
+      </item>
+      <item>
+         <description>&lt;div&gt;
+        &lt;p&gt;So, a new beginning. I'm writing this blog post in vim; as mentioned on the &lt;a href="/"&gt;front page&lt;/a&gt;, I'm hand-crafting my blog content at the moment. As a result, I don't have an ATOM feed anywhere, but stay tuned. Until there's some real content around here, I doubt anyone cares anyway.&lt;/p&gt;
+        &lt;p&gt;Some of you may have noticed that I'm borrowing fairly heavily from &lt;a href="http://tantek.com/"&gt;Tantek Çelik&lt;/a&gt;'s &lt;a href="http://tantek.com/log/"&gt;blog&lt;/a&gt; here; I hope he doesn't mind, but I liked the clean and semantically-rich layout of his site. I'll likely tweak and twiddle things much more as time goes on, but for the moment, I'm quite happy with this layout.&lt;/p&gt;
+        &lt;p&gt;Depending on when you read this, you're probably not terribly impressed with the styling; I don't have much CSS around at the moment, so things will not look terribly spiffy until I do some work on that.&lt;/p&gt;
+        &lt;h4 class="tags"&gt;tags:&lt;/h4&gt;
+        &lt;ul class="tags"&gt;
+            &lt;li&gt;&lt;a rel="tag" href="http://technorati.com/tag/blog"&gt;&lt;img src="/images/techtag" alt="[tag]"&gt; blog&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;</description>
+         <title><![CDATA[A new beginning]]></title>
+         <guid>http://mithrandi.net/blog/2005/06.xhtml#d04t1941</guid>
+         <link>http://mithrandi.net/blog/2005/06.xhtml#d04t1941</link>
+         <pubDate>Sat, 04 Jun 2005 21:41:00 GMT
+</pubDate>
+         <category domain="http://technorati.com/tag/">blog<!-- blog--></category>
+      </item>
+      <generator>Atom 1.0 EXSLT Transform v1.1 (http://atom.geekhood.net/)</generator>
+   </channel>
+</rss>

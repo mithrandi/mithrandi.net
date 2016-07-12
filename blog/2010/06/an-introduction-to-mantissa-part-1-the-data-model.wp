@@ -1,0 +1,37 @@
+This is the second post in a <a href="http://mithrandi.net/blog/tag/mantissa-intro/">series of articles</a> about <a href="http://divmod.org/trac/wiki/DivmodMantissa">Mantissa</a>.
+
+
+
+As you may have already surmised, Mantissa is designed to host more than one application in the same deployment. Due to the way Mantissa builds on Axiom, it is important to first understand the data model, before starting to understand how the components of your application plug into Mantissa.
+
+
+
+A Mantissa deployment, or "node", consists of a top-level Axiom store called the site store, and various substores contained therein. The substores fall into two categories; user stores, and application stores. The site store primarily contains <a href="http://twistedmatrix.com/documents/current/api/twisted.application.service.IService.html">IService</a> powerups for the various services running in the node (think HTTP server, SMTP server, etc.), and the substore items for the user / app stores. It also contains the <a href="http://twistedmatrix.com/documents/current/api/twisted.cred.portal.IRealm.html">IRealm</a> implementation for authentication (using <a href="http://twistedmatrix.com/documents/current/core/howto/cred.html">twisted.cred</a>, naturally), along with account / login method information for each user account, as well as other configuration data such as API keys (think PayPal API, or similar).
+
+
+
+The user stores are where your actual application data will be stored in a typical Mantissa application. Each user has their own Axiom user store (SQLite database), where data for that user is stored. The account / login method items for that particular user are also duplicated in the user store, to allow user stores to be transferred between site stores. Items in different user stores should not interact with each other, except via the interstore messaging API. This forms the core of Mantissa's scaling model; while each individual user's data must all be located on the same node, different users may have their data stored on different nodes, allowing you to spread your users across as many nodes as you need to in order to achieve the desired performance.
+
+
+
+Application stores are sort of a special kind of user store; internally, they're treated as a user store with a username corresponding to the name of the Offering (offerings will be discussed later), and a domain of None. Each application installed on a Mantissa node will have an application store; exactly what to put in there isn't entirely clear, the best I can come up with is "application-global data".
+
+
+
+Mantissa has a system called "sharing", whereby access to items in one user's store can be granted to other users, or even anonymous public access granted. In the case of "websharing" (which works over HTTP), the items are accessed using a URL that specifies which user's data is being accessed, as well as the identifier of the particular item. For example, the URL might look like http://myapp.com/mithrandi/timeline or http://mithrandi.myapp.com/timeline ("mithrandi" is the username, "timeline" is the share ID).
+
+
+
+For a user-centric application (like Google Docs or Dropbox), this  works pretty well; if the data in your application is primarily of  global scope, then this may not be a good fit at all. There are some ways around this: firstly, not every "user" needs to be an actual live user. Thus, you can divide your data across "artificial" user stores, and share it to the users that need to have access to it, retaining Mantissa's scalability in the process. For "global" data access or operations, you can send a message to each user store to perform a certain query or operation, and then collate the results; this model of "send the computation to the data" is similar in some ways to <a href="http://en.wikipedia.org/wiki/MapReduce">MapReduce</a>.
+
+
+
+However, if your application truly does not fit into the model, then one possibility is to store the application data in a completely separate service, using Mantissa only for configuration and authorization. The fact that Mantissa stores certain data in Axiom does not prevent you from making queries to an external PostgreSQL database, or Cassandra database, or web service, or whatever else you can come up with; it just means that you derive no specific benefit from Mantissa's database functionality.
+
+
+
+Another serious caveat is that while the conceptual model and APIs for Mantissa scalability are mostly in place, the actual implementation of scaling is not there at all. There is currently no networked implementation of the interstore messaging API, there are no tools for managing a cluster of Mantissa nodes, distributing or migrating user stores, backup/replication of user stores, and so on. The foundation for building these tools and components exists, but at the moment, you'll need to build them yourself (or pay someone to do it for you) if you need them. Thus, if you are looking for "Facebook size" scalability straight out of the box, Mantissa is probably not for you. On the other hand, depending on your needs, building the tools you need as you grow your application may not pose a significant challenge, so if you're not afraid of writing a little code, don't be scared off right away by this. You could also avoid relying on Mantissa for scalability, by storing your application data in another datastore that already meets your scalability needs
+
+
+
+Next up: Offerings, or "How do I expose my application to Mantissa?".

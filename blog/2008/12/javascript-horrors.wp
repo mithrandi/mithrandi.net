@@ -1,0 +1,81 @@
+Okay, so you probably already know JavaScript is bad; but did you know exactly how bad? Here's a couple of my favourite examples; if you haven't seen all of these already, then hopefully you'll also be saved some future headaches by reading this. Please note that I am using <code>=</code> to denote the concept of structural equality, since there isn't really any JavaScript operator that maps to that concept.
+
+<h2>String coercion:</h2>
+
+[js]
+
+&quot;5&quot; + &quot;10&quot; = &quot;510&quot;
+
+5 + &quot;10&quot; = &quot;510&quot;
+
+&quot;5&quot; + 10 = &quot;510&quot;
+
+5 + 10 = 15
+
+[/js]
+
+
+
+[js]
+
+[1,2,3] + 4 = &quot;1,2,34&quot;
+
+1 + [2,3,4] = &quot;12,3,4&quot;
+
+[/js]
+
+
+
+[js]
+
+null + &quot;foo&quot; = &quot;nullfoo&quot;
+
+undefined + &quot;foo&quot; = &quot;undefinedfoo&quot;
+
+null + [1,2] = &quot;null1,2&quot;
+
+undefined + [1,2] = &quot;undefined1,2&quot;
+
+null + null = 0
+
+undefined + undefined = NaN
+
+[/js]
+
+<h2>Array constructor:</h2>
+
+[js]
+
+Array(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;) = [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]
+
+Array(1, 2, 3) = [1, 2, 3]
+
+Array(4) = [undefined, undefined, undefined, undefined]
+
+[/js]
+
+
+
+<h2>"Equality":</h2>
+
+[js]
+
+1 == 1 = true
+
+1 == 2 = false
+
+1 == &quot;1&quot; = true
+
+[1] == 1 = true
+
+[1,2] == &quot;1,2&quot; = true
+
+[1,2,3] == [1,2,3] = false
+
+var x = [1,2,3]; x == x = true
+
+null == undefined = true
+
+null == &quot;null&quot; = false
+
+[/js]

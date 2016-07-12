@@ -1,0 +1,35 @@
+<a name="d02t0911"></a><div>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/python"><img src="/images/techtag" alt="[tag]"> python</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/web"><img src="/images/techtag" alt="[tag]"> web</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/frameworks"><img src="/images/techtag" alt="[tag]"> frameworks</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/templating"><img src="/images/techtag" alt="[tag]"> templating</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/nevow"><img src="/images/techtag" alt="[tag]"> nevow</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/django"><img src="/images/techtag" alt="[tag]"> django</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/tal"><img src="/images/techtag" alt="[tag]"> tal</a></li>
+
+        </ul>
+
+        <p>So, Colin has been <a href="http://www.karnaugh.za.net/show?id=218">ranting</a> and <a href="http://www.karnaugh.za.net/show?id=219">raving</a> about Django and templating and such again; subsequently, I had a brief conversation on IRC with <a href="http://russell.rucus.net/">someone else</a> about the subject, and figured I'd do a bit of a braindump into my blog.</p>
+
+        <p>Like Colin, I have a strong dislike of using plaintext templating mechanisms for generating anything other than text/plain data. This is primarily due to the mixing of levels that this kind of usage entails; it is a design flaw very similar to the kind of design flaw that enables SQL injection attacks in poorly written applications. Your data should be filtering through a higher level abstraction which is then serialized by code specifically written to implement the output format; dumping it straight into a plaintext template is just begging for trouble, in the form of random garbage not conforming to the expected format. One only needs to look at all the malformed RSS feeds out there to see an example of how bad this can get.</p>
+
+        <p>However, there's more to it; for example, templating systems like <a href="http://www.zope.org/Wikis/DevSite/Projects/ZPT/TAL">TAL</a> are not plaintext, but are still problematic. The second problem is an issue of programming languages; in a typical webdev project I'm already writing Python code, JavaScript code, and maybe SQL code; writing yet more code in some relatively half-baked and featureless language is not an appealing concept. In addition, even if the business logic is separated out from the template, you still have presentation logic mingled with the actual template content; this may seem superficially attractive, but ultimately I find it to be counterproductive.</p>
+
+        <p>At this point, Colin and I have a divergence of opinion; while he prefers to make heavy use of stan (a somewhat "hackish" <a href="http://divmod.org/trac/wiki/DivmodNevow">Nevow</a> feature that allows you to write XML using Python syntax), I prefer to almost completely avoid it. To put it simply, I want to write Python code in my Python source files, JavaScript code in my JS source files, SQL code in SQL source files, XML in XML files, and CSS in CSS files. Given that all of these formats/tools allow me to do just that, I would rather avoid embedding copious amounts of one language in another, as I find working with JS embedded in Python (or whatever) to be more awkward and confusing than having it separated out.</p>
+
+        <p>I do think that using plaintext templating for emitting more structured data has its place in things like wikiish systems (eg. <a href="http://www.jot.com/">JotSpot</a>) or CMSish systems, as an enabling technology for people who are nominally non-programmers; but for a "real" programmer with a full array of libraries and language at their disposal, it seems to just be bad system design.</p>
+
+        <p>In closing, I'll note that I use <a href="http://divmod.org/trac/wiki/DivmodNevow">Nevow</a> for (X)HTML templating, making heavy use of patterns and templates, with a few render specials. If you're not familiar with Nevow, that probably sounds like complete Greek; I suggest you do some more reading to get an idea of how Nevow templates work, but in very broad terms a pattern is an XML element marked with a <code>nevow:pattern="name"</code> element; the element is then not directly present in the output, but is available to the presentation code, and is usually used for making N copies of a particular element structure. A slot, on the other hand, is a <code><nevow:slot name="name" /></code> element, which is "filled" by the presentation code; that is, replaced with content supplied at render time.</p>
+
+    </div>

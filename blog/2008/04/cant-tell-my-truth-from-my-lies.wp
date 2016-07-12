@@ -1,0 +1,61 @@
+<div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="enclosure enclosure-left enclosure-large photo-enclosure" style="text-align:center;float:left;">
+
+<div class="enclosure-inner" style="border:1px solid;width:px;margin:0 20px 20px 0;padding:9px;">
+
+    <div class="enclosure-list">
+
+        <div class="enclosure-item photo-asset last">
+
+
+
+            <div class="enclosure-image">
+
+
+
+                <a href="http://blog.mithrandi.net/blog/wp-content/uploads/2010/02/6a00f48d09c451000100e398eca28b0004.jpg"><img src="http://blog.mithrandi.net/blog/wp-content/uploads/2010/02/6a00f48d09c451000100e398eca28b0004.jpg?w=300" alt="Closer" title="Closer" /></a>
+
+
+
+            </div>
+
+            <div class="enclosure-meta">
+
+                <div class="enclosure-asset-name"><a href="http://blog.mithrandi.net/blog/wp-content/uploads/2010/02/6a00f48d09c451000100e398eca28b0004.jpg" title="Closer">Closer</a></div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+</div><!-- end enclosure -->
+
+<p>
+
+For a long time now, <a href="http://mithrandi.net/blog">my blog</a> has consisted of handcrafted XHTML marked up with <a href="http://microformats.org/wiki/hatom">hAtom</a>, and using XSLTs to generate HTML versions and my Atom feed. While this worked out reasonably well in terms of giving me control over every last detail of my content, it was pretty much a pain in the ass when it came to churning out light-weight comment. Sure, some days I&#39;m doing something important enough to worry about the details; other days I just want to type some stuff into a textbox and click &quot;post&quot;. The ultimate solution will probably be to write my own blog software, but there are already half a million projects on my todo list that would be above that one, so it&#39;s not going to happen any time soon.</p><p>However, today I suddenly realised that I don&#39;t have to choose a single place to blog; I can keep blogs at two (or more) different sites, and just aggregate them all into a single feed for people who want to follow my blatherings. Sure, it means someone manually navigating my content is going to have a harder time finding it all, but that&#39;s what Google is for anyway. So here&#39;s my new shiny Vox blog, where I&#39;ll probably be writing a heck of a lot more than I ever did on my old blog. If you&#39;re reading this before I&#39;ve hooked it up to my main feed, congratulations!<br /><div><br /></div></p>
+
+
+
+                </div>

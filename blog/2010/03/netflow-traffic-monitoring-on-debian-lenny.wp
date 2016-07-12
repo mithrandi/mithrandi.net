@@ -1,0 +1,65 @@
+Thanks to some trailblazing by <a href="http://jonathanj.vox.com/">Jonathan</a>, I was able to set this up quickly the other day, and I thought I'd lay out the process to make it easier for anyone else trying to do the same thing.
+
+
+
+First up, we need a netflow emitter and collector:
+
+<code># aptitude install fprobe-ulog nfdump</code>
+
+
+
+Note that the default collector address/port in the fprobe-ulog configuration does <em>not</em> match the default port for nfcapd; you'll probably want to enter "localhost:9995" when prompted by debconf. Next, we'll set nfcapd up by editing /etc/default/nfdump to look like this:
+
+
+
+<code>DAEMON_ARGS="-D -b 127.0.0.1 -l $DATA_BASE_DIR -S 1 -P $PIDFILE"
+
+nfcapd_start=yes</code>
+
+
+
+We override the default DAEMON_ARGS to add some important options. <code>-b 127.0.0.1</code> ensures that we only bind to localhost; <code>-S 1</code> selects the year/month/day subdirectory hierarchy for the data files that get written out, which makes it easier to select a particular date range when using nfdump later.
+
+
+
+Next, we need to add iptables rules to send traffic to ULOG so that fprobe-ulog can process it. Exactly how you accomplish this depends on what you're using to set up your firewall rules, and what traffic you want to monitor; assuming everything, you would want rules like these:
+
+
+
+<code># iptables -A INPUT -j ULOG --ulog-qthreshold 50 --ulog-cprange 48
+
+# iptables -A FORWARD -j ULOG --ulog-qthreshold 50 --ulog-cprange 48
+
+# iptables -A OUTPUT -j ULOG --ulog-qthreshold 50 --ulog-cprange 48</code>
+
+
+
+You should probably put them right at the end of the INPUT/FORWARD/OUTPUT chains, or wherever you ACCEPT traffic.
+
+
+
+Make sure both daemons are started:
+
+<code># invoke-rc.d fprobe-ulog start
+
+# invoke-rc.d nfdump start</code>
+
+
+
+Now your flows are hopefully being logged. The data will only actually be written out to disk every 5 minutes, or so; grab a cup of coffee, and then try this command when you get back:
+
+
+
+<code># nfdump -R /var/cache/nfdump -s port/bytes</code>
+
+
+
+You should get a list of the top 10 flows grouped by port, and sorted by bytes transferred. If there aren't any results at all, make sure that your ULOG rules are actually running, by inspecting the counters in the output of <code>iptables -nvL</code>.
+
+
+
+Hooray, you're done! Read <code>nfdump(1)</code> for more information, including how to specify filters; you now have the ability to drill down into your traffic data in a very versatile way.
+
+
+
+EDIT: Remove reference to lenny; I actually did this on sid.

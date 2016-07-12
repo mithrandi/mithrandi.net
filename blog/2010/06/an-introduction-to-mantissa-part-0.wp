@@ -1,0 +1,17 @@
+This is the first post in a <a href="http://mithrandi.net/blog/tag/mantissa-intro/">series of articles</a> about <a href="http://divmod.org/trac/wiki/DivmodMantissa">Mantissa</a>; a <a href="http://python.org/">Python</a> application server built on <a href="http://twistedmatrix.com/">Twisted</a>, <a href="http://divmod.org/trac/wiki/DivmodNevow">Nevow</a>, and <a href="http://divmod.org/trac/wiki/DivmodAxiom">Axiom</a>.
+
+
+
+"Application server" is a somewhat fuzzy term that seems to mean different things to different people; but in essence, Mantissa serves as a layer that joins your actual application code to the various ways (different protocols, for example) that your application may be accessed. Or, to put it another way, when writing a Mantissa application, the deployment target is Mantissa, not "a web server", even if your application is only going to be accessed from the web. That's not to say that Mantissa completely abstracts away the details of the protocol, making it impossible to control how your application is presented; rather, it provides common ground to mediate that interaction. It provides mechanisms for the common portions of functionality, such as access control, data storage, authentication and authorization, and also makes provision for defining standard interfaces through which your application is exposed to the various protocols you may wish to make use of.
+
+
+
+This series is not going to be of the "build your own wiki in 60 seconds" kind. While there are some quirks and rough patches in Mantissa that may make it not the best choice for hacking together an application really quickly, it is probably still something that is doable; but unfortunately, I'm not the right person to be writing that sort of article. What I hope to do, instead, is provide a more in-depth introduction that allows you to understand and embrace (or reject!) the design philosophy of Mantissa for longer-term projects, while noting incomplete areas and other potential pitfalls along the way that may need to be avoided.
+
+
+
+This is also not going to be an Axiom, Nevow, Python, or Twisted tutorial; while I will touch on aspects of those components as they relate to Mantissa, you will need to look elsewhere for further detail.
+
+
+
+That's it for now, except to thank <a href="http://jerith.za.net/">Jeremy</a> in passing for nagging me about this until I got around to doing it (or starting it, at least).

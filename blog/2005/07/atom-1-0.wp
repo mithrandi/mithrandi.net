@@ -1,0 +1,23 @@
+<a name="d15t1959"></a><div>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/atom"><img src="/images/techtag" alt="[tag]"> atom</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/blogging"><img src="/images/techtag" alt="[tag]"> blogging</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/xslt"><img src="/images/techtag" alt="[tag]"> xslt</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/xslt2"><img src="/images/techtag" alt="[tag]"> xslt2</a></li>
+
+        </ul>
+
+        <p>Well, looks like <a href="http://www.w3.org/2005/Atom">Atom</a> <a href="http://www.ietf.org/internet-drafts/draft-ietf-atompub-format-10.txt">1.0</a> is <a href="http://www.tbray.org/ongoing/When/200x/2005/07/14/Atom-1.0">just about finalized</a>. I've updated <a href="http://mithrandi.za.net/blog/feed">my Atom feed</a> to the 1.0 spec, by modifying the <a href="/blog/atom.xsl">XSLT</a> I use to generate it.</p>
+
+
+
+        <p>I've also moved my tag lists to the top of each post, for better visibility and ordering. Oh, and I added a link to my e-mail address at the bottom of the page, as I realised that my e-mail address wasn't actually displayed anywhere on my website. I would appreciate it if everyone that has been trying desperately to contact me would refrain from flooding my inbox out of existence.</p>
+
+    </div>

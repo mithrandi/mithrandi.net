@@ -1,0 +1,155 @@
+<blockquote>Encumbered forever by desire and ambition,
+
+there's a hunger still unsatisfied;
+
+our weary eyes still stray to the horizon,
+
+though down this road we've been so many times.
+
+
+
+— Pink Floyd, <strong>High Hopes</strong></blockquote>
+
+<h2>Introduction</h2>
+
+As some of you already know, I recently became the proud new owner of an <a href="http://en.wikipedia.org/wiki/HTC_Desire">HTC Desire</a>. You can find the detailed specs elsewhere, but the phone is pretty much a Nexus One with an optical trackpad, real buttons, a little extra flash memory, and the HTC Sense software. This post isn't exactly going to be an in-depth review, but I thought I'd give a brief rundown of my impressions, and also the apps I'm using on the phone at the moment.
+
+
+
+Overall, I'm pretty happy with the phone. I can get 1-2 days of use between charges (depending on usage), which is good enough for my purposes, and that does include push email (quite a lot of email, in the case of my personal account) and syncing all sorts of stuff on a pretty regular schedule. The phone UI is generally way more responsive and snappy than my previous phones (<a href="http://en.wikipedia.org/wiki/Nokia_E71">Nokia E71</a>, <a href="http://en.wikipedia.org/wiki/Nokia_E65">E65</a>), and the touch screen works reasonably well. Also, I can actually get apps for a lot of the services I use now, whereas I couldn't before (not many people are making Series 60 apps).
+
+<h2>Input</h2>
+
+The lack of a real keyboard turned out to be not as bad as I expected. Tap-typing with a single finger is not as fast as using both thumbs was on the E71, and holding the phone so that I can use both thumbs is somehow awkward enough that I never did it. Selecting predicted words is a lot easier with the touch screen, though (no need to scroll through the list). However, I am now using the <a href="http://beta.swype.com/">Swype Beta</a>, an alternative input method where you "swype" your finger through the letters of the word you want, without lifting it, along with a lot of other nice tweaks to the on-screen keyboard. It works pretty nicely; it doesn't always select the right word, but you can finish your sentence (or paragraph) and then go back and select a different word where it made mistakes. If a word isn't in the dictionary, or isn't really a word at all, you can just tap it out; regular words will be added to the dictionary after you press space, but you can also add "non-words" like "http://" or ".co.za" for convenience. I'm fast enough on the Swype keyboard now that I can use it for taking notes during a conversation in real-time, which is great. Unfortunately, the beta is closed at the moment; if you didn't have a chance to grab the app while it was open, you'll have to wait around until they decide to let people have a crack at it again, or they open it up to everyone.
+
+
+
+The multi-touch screen is great. A lot of apps (like Maps, or the browser) support the "pinch" and "spread" (what's the real name for the opposite of pinch?) to zoom in and out, which easily lends itself to an "arbitrary precision" navigation style: zoom out to cover a lot of ground, then zoom back in to precisely select a button or other page element. The "momentum-based" scrolling mechanism (again, what the heck is this actually called?) is also used by most apps, and is similarly awesome. It sort of behaves like a <a href="http://en.wikipedia.org/wiki/Globe">globe</a>: flick the screen to start scrolling; over time, it slowly slows down, but you can touch the screen to "catch" it once you get to where you want to be, or flick it again to keep going.
+
+<h2>Multi-tasking</h2>
+
+The Android approach to multi-tasking is awesome, and I kinda wish my desktop operating systems worked the same way. Under the hood, it's basically just standard Linux processes being scheduled by the kernel, but with a bit of a twist. In terms of the UI, there's no explicit process management. Some apps have an "exit" option, and you can burrow into the Applications list to "Force Stop" any app, but there isn't even any built-in way to get a list of currently-running apps (although third-party apps for this purpose are available), simply because you don't really need it. When the OS runs out of memory (think "OOM killer" if you're familiar with Linux), it kills off the oldest apps to free up memory. In addition, provision is made for apps to save and restore their state. As a result, if you switch back and forth between apps, they'll probably still be running, so switching will be immediate. If you open up an app that you haven't used for a while, it may not be running anymore, so it'll take a little longer (but usually not that much longer) for the app to start up again and restore the state. Most apps don't do anything if they're not in the foreground, so there's no need to worry about wasting your battery running apps you're not using. There are also "services", which are for long-running background tasks that shouldn't be killed off to reclaim memory; synchronization, for example.
+
+
+
+Unfortunately, some people seem to be confused by all of this; as a result, there are a plethora of "advanced task killer" apps and suchlike on the Android market. These are all just about pointless; all you are likely to accomplish by running around killing random processes is breaking certain functionality like background synchronization that you turned on. If you want to stop your contacts syncing, for example, just go turn that off in the settings, instead of using an app that kills the process every time it starts up. Also, if an app really is draining your battery in the background, it'll show up in the battery info screen, and you can then uninstall it or otherwise take steps to solve the problem. The only exception to the latter is built-in functionality that gets aggregated into the "Android Platform" entry; it may not be obvious what you need to disable or reconsider if "Android Platform" shows up as using too much juice.
+
+<h2>Intents</h2>
+
+Think of <a href="http://developer.android.com/reference/android/content/Intent.html">intents</a> like file type associations on steroids. Instead of just "open this file which is of some type", you also have "open this URL" and "dial this phone number" and "view these map coordinates" and "search for this text" and "display the home screen" and "the battery is running low" and just about anything else you can think of, including brand new intents created by third-party developers.
+
+
+
+Since any application can register itself to handle an intent, this means that third-party applications can do anything from hooking in as a phone dialler (eg. a SIP client), to replacing the home screen; just about any aspect of the "default" OS software can be replaced. This can also be done selectively; for example, if you follow a link to a Google Maps URL (even from another web page in the browser), you'll be given the option to open it in the "Maps" app as well as opening it in the browser.
+
+
+
+The net result is that third-party software can replace and enhance the OS in a practically unlimited fashion; and different third-party apps can interoperate and integrate without a great deal of special effort being exerted on the part of the application developers.
+
+<h2>GPS / Location</h2>
+
+The Desire has <a href="http://en.wikipedia.org/wiki/Assisted_GPS">A-GPS</a> functionality. My E71 also supposedly had this functionality, but it never seemed to work; getting a GPS lock could take up to 5 minutes if I started the Ovi Maps app up in a different location to where I last closed it. On my Desire, under optimal conditions (outdoors, clear view), I can generally get a GPS lock in seconds, no matter how far I've moved since the last time I got a lock. I can even get a GPS lock in under 30 seconds standing indoors in the middle of my house! I guess this is probably a combination of a better A-GPS implementation and a better GPS receiver, but I'm definitely much happier with the results.
+
+<h2>Battery lifetime</h2>
+
+A few quick notes I wanted to make on battery lifetime. Firstly, the battery lifetime seems to go up after the first several charge-discharge cycles; I guess this probably applies to all batteries in this class, but I thought it was worth mentioning. Secondly, active wifi use generally uses less battery than an active cell data (GPRS/EDGE/3G/HSDPA) connection; but an idle wifi connection will use more battery than an idle cell data connection. You can adjust the wifi "sleep" policy to take advantage of this by disabling the wifi connection after a certain timeout, although you may wish to avoid the extra cell data charges. Also, if you are in an area with poor cell reception, the cell radio will use more battery as the transmit strength is increased in order to successfully transmit; this applies even if you are not making use of cell data.
+
+<h2>My applications</h2>
+
+You can see a list of <a href="http://www.appbrain.com/user/mithrandi/apps-on-the-phone">all of the applications I have installed</a> (thanks to <a href="http://www.appbrain.com/">AppBrain</a>), but not all of them are worth mentioning, so I'll run through the interesting ones here, with some commentary. Unfortunately paid apps are not currently available from the Android Market in South Africa, which some apps are either not available at all, while others are only available in free+ads form.
+
+<ul>
+
+	<li><a href="http://www.appbrain.com/app/com.aldiko.android">Aldiko Book Reader</a>
+
+A pretty decent eBook reader for ePub format books. It includes support for purchasing books from some sites (they have a mechanism whereby any online store can integrate their catalogue); otherwise you can download and import them from anywhere you can find them, or copy them onto the phone from your PC.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.roflharrison.agenda">Android Agenda Widget</a>
+
+This is a ridiculously customizable home screen widget for viewing your calendar and tasks. It has support for "styles", but you can also individually customize just about every aspect of the widget. It also provides widgets in almost every every possible size from 1x1 up to 4x4. It supports the various calendars (Google, HTC, etc.) as well as Astrid and some other tasks app that I can't remember offhand.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.appspot.swisscodemonkeys.apps">AppBrain App Market</a>
+
+The name is a little misleading: this is not a separate market, but just a way to sync and share your installed apps list, as well as scheduling installs / uninstalls via the web interface (which will be performed the next time you sync using the phone app).</li>
+
+	<li><a href="http://www.appbrain.com/app/com.timsu.astrid">Astrid Task/Todo List</a>
+
+A nifty tasks list manager. You can schedule multiple reminders for tasks, tag them, track expected time / time spent, and sync with Remember The Milk.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.metago.astro">ASTRO File Manager</a>
+
+Android does not come with any kind of file manager, although you won't need one very often since apps tend to avoid explicit file management. Still, there is the occasional need to rename or move a file around; it can also be very useful to transfer files over the network, especially with the SMB module.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.google.zxing.client.android">Barcode Scanner</a>
+
+Scan a variety of barcodes, including <a href="http://en.wikipedia.org/wiki/QR_Code">QR codes</a> and UPC / EAN barcodes. Many sites provide download / market links for apps in the form of QR codes; scanning the code from another display is obviously easier than retyping the URL.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.dropbox.android">Dropbox</a>
+
+Nothing much to this app; it just lets you view / download files you have stored on <a href="http://dropbox.com/">Dropbox</a>.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.evernote">Evernote</a>
+
+Create and access your Evernote notes, including geotagging support.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.joelapenna.foursquared">Foursquare</a>
+
+Check in on <a href="http://foursquare.com/">Foursquare</a>, get alerts when your friends check in nearby, view nearby venues, and search for venues.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.levelup.foxyring">FoxyRing: Smart Ringtone</a>
+
+I'm not actually using this app currently, but you may find it useful regardless. The app allows you to adjust your ringtone settings based on ambient noise levels, time of day, and location, as well as overriding them for selected contacts.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.glympse.android.glympse">Glympse</a>
+
+Unlike <a href="http://www.google.com/latitude">Google Latitude</a>, which shares your location to all of your contacts the whole time you have it active, <a href="http://glympse.com/">Glympse</a> provides more limited and granular sharing. When you create a "Glympse", you specify a lifetime (eg. 30 minutes) after which the Glympse expires, and optionally start and destination locations; a unique code is then generated. You can then share the URL by text message or email, or you can post it on Facebook. The recipients can then view your location in realtime, until the Glympse expires, either when the specified time has elapsed, or by you manually expiring it at any time of your choosing.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.google.android.apps.unveil">Google Goggles</a>
+
+This app is described as a "visual search" application. You take a picture of anything, and the application attempts to recognise it. This might mean scanning a barcode / QR code, scanning and OCRing text (which you can then translate or search for), detecting a well-known landmark, a work of art, and <a href="http://google.com/mobile/goggles">more</a>.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.eclipsim.gpsstatus2">GPS Status</a>
+
+A simple app that allows you to visualize the GPS satellites in range, how many satellites you are locked onto, and see other information from the GPS receiver.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.amazon.kindle">Kindle for Android</a>
+
+Amazon's <a href="http://amazon.com/kindle">Kindle</a> application. Great for reading Kindle books, but if you can get them in ePub, rather use Aldiko (see above), as the Kindle app is not nearly as featureful.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.nimbuzz">Nimbuzz</a>
+
+This is an IM / voice chat app. It has support for Skype, which is useful, as Fring no longer has Skype support, and the official Skype Android app is currently only available to Verizon subscribers through a special deal. It also supports a variety of IM networks, including Facebook, but unfortunately generic Jabber support is no longer available.</li>
+
+	<li><a href="http://www.appbrain.com/app/kenyu73.realsignal">Real Signal</a>
+
+A simple app that gives you a configurable cell signal strength meter, as well as allowing you to see the actual numerical signal strength.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.rememberthemilk.MobileRTM">Remember The Milk</a>
+
+Only usable by RTM Pro subscribers (although you get a 14-day trial of Pro if you aren't a subscriber). This lets you sync your RTM tasks to your phone, create tasks on your phone, and includes a widget for displaying tasks. Not strictly necessariy in conjuction with Astrid (see above), but I find it useful for managing additional task views (eg. my shopping list).</li>
+
+	<li><a href="http://www.appbrain.com/app/net.jjc1138.android.scrobbler">ScrobbleDroid</a>
+
+Just what it sounds like: scrobble your music activity to <a href="http://last.fm/">last.fm</a>. Compatible with various music players.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.shazam.android">Shazam</a>
+
+Want to know what song is currently playing? Capture an audio sample via the phone's microphone with this app, and then search their online database to identify the song.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.google.android.apps.shopper">Shopper</a>
+
+This app overlaps with Google Goggles somewhat (see above). You can scan media (DVDs and CDs) or books by barcode or cover image, and then search for them online with Google Shopper; useful for doing some comparative shopping when you're in a physical store.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.codesector.speedview.free">SpeedView</a>
+
+A simple speedometer app that uses the GPS to track your speed.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.tripit">TripIt</a>
+
+Sync your <a href="http://tripit.com/">TripIt</a> travel plans to your phone; allows for offline access, so you can get your important travel details even if you can't get an internet connection from where you are.</li>
+
+	<li><a href="http://www.appbrain.com/app/com.farproc.wifi.analyzer">Wifi Analyzer</a>
+
+Visualize the wifi networks in range, including the channel and signal strength. Useful for selecting an unused channel for your wifi network, or picking an internet access point.</li>
+
+</ul>

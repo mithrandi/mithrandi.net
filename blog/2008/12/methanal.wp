@@ -1,0 +1,5 @@
+<div>
+
+         <p>For those of you who didn&#39;t read about this elsewhere already, I&#39;ve just released <a href="https://launchpad.net/methanal/trunk/0.1.2">Methanal 0.1.2</a>. The project was recently moved to Launchpad / bzr in the hopes of making it more accessible.</p><p>Methanal is a Mantissa widget library, primarily consisting of an Athena-based forms implementation (if you don&#39;t get the obscure pun, it might help if I tell you that methanal is the IUPAC name for what is more commonly known as <a href="http://en.wikipedia.org/wiki/Formaldehyde">formaldehyde</a>), but we&#39;re also building a collection of miscellaneous widgets that you may find useful. Unfortunately everything depends on Mantissa at the moment, but a lot of the widgets only depend on the Mantissa themes system, so if that was moved into Nevow, a lot of them would be usable in any Athena application.<br /></p>
+
+                </div>

@@ -1,0 +1,73 @@
+<a name="d27t1158"></a><div>
+
+        <h4 class="tags">tags:</h4>
+
+        <ul class="tags">
+
+            <li><a rel="tag" href="http://technorati.com/tag/hardware"><img src="/images/techtag" alt="[tag]"> hardware</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/clock"><img src="/images/techtag" alt="[tag]"> clock</a></li>
+
+            <li><a rel="tag" href="http://technorati.com/tag/drift"><img src="/images/techtag" alt="[tag]"> drift</a></li>
+
+        </ul>
+
+        <p>A post on python-dev by Neil McLaren caught my eye today:</p>
+
+        <blockquote>
+
+            <blockquote>
+
+                <blockquote>
+
+                    <p>A signal sent while the operating system is doing certain things to
+
+                    the application (including, sometimes, when it is swapped out or
+
+                    deep in I/O.)</p>
+
+                </blockquote>
+
+                <p>That sounds like an outright bug. I can't think
+
+                of any earthly reason why the handler shouldn't
+
+                be called eventually, if it remains installed and
+
+                the process lives long enough.</p>
+
+            </blockquote>
+
+
+
+            <p>See above.  It gets lost at a low level.  That is why you can cause
+
+            serious time drift on an "IBM PC" (most modern ones) by hammering
+
+            the video card or generating streams of floating-point fixups.  Most
+
+            people don't notice, because xntp or equivalent fixes it up.</p>
+
+
+
+            <p>Neil McLaren</p>
+
+        </blockquote>
+
+
+
+        <p>If you've been wondering why the clock drift on your PC seems so
+
+        bad, perhaps this is part of the problem?</p>
+
+
+
+        <p>In my next blog post, I intend to detail setting up dual-path
+
+        routing to take advantage of the peculiarities of the South African ISP
+
+        market to save yourself some money if you are using an ADSL
+
+        connection.</p>
+
+    </div>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:date="http://exslt.org/dates-and-times" xmlns:excerpt="http://wordpress.org/export/1.0/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:wp="http://wordpress.org/export/1.0/" version="2.0">
+   <channel>
+      <wp:wxr_version>1.0</wp:wxr_version>
+      <language>en</language>
+      <description><![CDATA[mithrandi.linenoise]]> (converted from Atom 1.0)
+          </description>
+      <pubDate>Mon, 06 Jun 2005 23:40:00 GMT
+</pubDate>
+      <link/>
+      <title><![CDATA[mithrandi.linenoise]]></title>
+      <item>
+         <content:encoded><![CDATA[<a name="d06t2140"></a><div>
+        <p>I now have an ATOM <a href="/blog/feed">feed</a> available. It's a static file same as this XHTML document, but I generate it from the XHTML via XSLT. You can take a look at the <a href="/blog/atom">transformation</a> if you're interested. I'm using the <a href="http://saxon.sourceforge.net/">Saxon XSLT processor</a> to do the processing. Let me know if you have any suggestions; I'm sure there's room for improvement, but I think it's good enough to put online already.</p>
+        <h4 class="tags">tags:</h4>
+        <ul class="tags">
+            <li><a rel="tag" href="http://technorati.com/tag/blogging"><img src="/images/techtag" alt="[tag]"> blogging</a></li>
+            <li><a rel="tag" href="http://technorati.com/tag/xslt"><img src="/images/techtag" alt="[tag]"> xslt</a></li>
+            <li><a rel="tag" href="http://technorati.com/tag/xslt2"><img src="/images/techtag" alt="[tag]"> xslt2</a></li>
+            <li><a rel="tag" href="http://technorati.com/tag/atom"><img src="/images/techtag" alt="[tag]"> atom</a></li>
+        </ul>
+    </div>]]></content:encoded>
+         <title><![CDATA[ATOM feed now available]]></title>
+         <guid>#d06t2140</guid>
+         <link>#d06t2140</link>
+         <pubDate>Mon, 06 Jun 2005 23:40:00 GMT
+</pubDate>
+         <wp:post_date>2005-06-06T23:40:00+02:00</wp:post_date>
+         <wp:post_date_gmt>2005-06-06T23:40:00+02:00</wp:post_date_gmt>
+         <category domain="tag">blogging</category>
+         <category domain="tag">xslt</category>
+         <category domain="tag">xslt2</category>
+         <category domain="tag">atom</category>
+         <wp:status>publish</wp:status>
+         <wp:post_type>post</wp:post_type>
+      </item>
+      <item>
+         <content:encoded><![CDATA[<a name="d06t1908"></a><div>
+        <div class="poem">
+        <p>My mind, like a mirror, reflects the shadow
+as death and darkness steal my countenance;
+deeper and deeper into the whirlpool
+my self is lost in the all of none.</p>
+
+<p>The deathly swirl of blackest night
+gives way to ghostly horrors of grey;
+arrows of fate, arrows of fear,
+arrows of pain, descend through my veins.</p>
+
+<p>A piercing cry transfixes my soul,
+and--rushing through my outward self--
+it shatters that which once was formed,
+and forms anew what never was.</p>
+
+<p>With shadows surrounding I am reborn;
+of loss, of fear, of pain, of flame;
+from life destroyed, and life abhorred,
+and fragments of dreams once lived.</p>
+        </div>
+        <h4 class="tags">tags:</h4>
+        <ul class="tags">
+            <li><a rel="tag" href="http://technorati.com/tag/poem"><img src="/images/techtag" alt="[tag]"> poem</a></li>
+        </ul>
+    </div>]]></content:encoded>
+         <title><![CDATA[A dream once forgotten]]></title>
+         <guid>#d06t1908</guid>
+         <link>#d06t1908</link>
+         <pubDate>Mon, 06 Jun 2005 21:09:00 GMT
+</pubDate>
+         <wp:post_date>2005-06-06T21:09:00+02:00</wp:post_date>
+         <wp:post_date_gmt>2005-06-06T21:09:00+02:00</wp:post_date_gmt>
+         <category domain="tag">poem</category>
+         <wp:status>publish</wp:status>
+         <wp:post_type>post</wp:post_type>
+      </item>
+      <item>
+         <content:encoded><![CDATA[<a name="d04t1941"></a><div>
+        <p>So, a new beginning. I'm writing this blog post in vim; as mentioned on the <a href="/">front page</a>, I'm hand-crafting my blog content at the moment. As a result, I don't have an ATOM feed anywhere, but stay tuned. Until there's some real content around here, I doubt anyone cares anyway.</p>
+        <p>Some of you may have noticed that I'm borrowing fairly heavily from <a href="http://tantek.com/">Tantek Çelik</a>'s <a href="http://tantek.com/log/">blog</a> here; I hope he doesn't mind, but I liked the clean and semantically-rich layout of his site. I'll likely tweak and twiddle things much more as time goes on, but for the moment, I'm quite happy with this layout.</p>
+        <p>Depending on when you read this, you're probably not terribly impressed with the styling; I don't have much CSS around at the moment, so things will not look terribly spiffy until I do some work on that.</p>
+        <h4 class="tags">tags:</h4>
+        <ul class="tags">
+            <li><a rel="tag" href="http://technorati.com/tag/blog"><img src="/images/techtag" alt="[tag]"> blog</a></li>
+        </ul>
+    </div>]]></content:encoded>
+         <title><![CDATA[A new beginning]]></title>
+         <guid>#d04t1941</guid>
+         <link>#d04t1941</link>
+         <pubDate>Sat, 04 Jun 2005 21:41:00 GMT
+</pubDate>
+         <wp:post_date>2005-06-04T21:41:00+02:00</wp:post_date>
+         <wp:post_date_gmt>2005-06-04T21:41:00+02:00</wp:post_date_gmt>
+         <category domain="tag">blog</category>
+         <wp:status>publish</wp:status>
+         <wp:post_type>post</wp:post_type>
+      </item>
+      <generator>Atom 1.0 EXSLT Transform v1.1 (http://atom.geekhood.net/)</generator>
+   </channel>
+</rss>

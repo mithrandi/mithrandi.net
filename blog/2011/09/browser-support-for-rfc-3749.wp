@@ -1,0 +1,15 @@
+<a href="https://tools.ietf.org/html/rfc3749">RFC 3749</a> defines a mechanism for compressing a TLS connection using the DEFLATE compression mechanism. When used in conjunction with https, this fills a similar role to that of Content-Encoding: gzip, except that headers benefit from compression too (as the whole connection is compressed), and I suspect there is less chance of weird proxy / caching bugs. I decided to do some quick tests to see which browsers actually support this, as I found approximately zero information on the subject on the internet; the results, unfortunately, are rather dismal and depressing:
+
+<ul>
+
+	<li>Chrome: supported (apparently since Chrome 9, but I only tested Chrome 15 on the dev channel)</li>
+
+	<li>Firefox: not supported (tested 8.0 Aurora)</li>
+
+	<li>Safari: not supported</li>
+
+	<li>Internet Explorer 9 on Windows 7: not supported</li>
+
+	<li>Android 2.3 default browser: not supported</li>
+
+</ul>
