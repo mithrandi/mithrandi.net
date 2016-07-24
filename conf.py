@@ -983,7 +983,7 @@ FEED_TEASERS = False
 # RSS_LINK is a HTML fragment to link the RSS or Atom feeds. If set to None,
 # the base.tmpl will use the feed Nikola generates. However, you may want to
 # change it for a FeedBurner feed or something else.
-RSS_LINK = '<link rel="alternate" type="application/atom+xml" title="Shattered Crystalline Matrix Feed" href="https://mithrandi.net/blog/index.atom">'
+RSS_LINK = '<link rel="alternate" type="application/atom+xml" title="Shattered Crystalline Matrix Feed" href="https://mithrandi.net/index.atom">'
 
 # A search form to search this site, for the sidebar. You can use a Google
 # custom search (https://www.google.com/cse/)
