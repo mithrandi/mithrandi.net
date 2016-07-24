@@ -21,7 +21,7 @@ BLOG_AUTHOR = "mithrandi"  # (translatable)
 BLOG_TITLE = "Shattered Crystalline Matrix"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link. Don't forget the protocol (http/https)!
-SITE_URL = "https://mithrandi.net/blog/"
+SITE_URL = "https://mithrandi.net/"
 # This is the URL where Nikola's output will be deployed.
 # If not set, defaults to SITE_URL
 # BASE_URL = "https://mithrandi.net/blog/"
@@ -522,7 +522,7 @@ REDIRECTIONS = [("blog/index.html", "/")]
 # }
 DEPLOY_COMMANDS = {
     'default': [
-        'aws --profile nikola s3 sync --exclude ".git/*" output/ s3://mithrandi.net/blog/',
+        'aws --profile nikola s3 sync --exclude ".git/*" output/ s3://mithrandi.net/',
     ]
 }
 
@@ -724,6 +724,11 @@ INDEXES_PRETTY_PAGE_URL = ['page', '{number}', '{index_file}']
 #     ("icon", "/favicon.ico", "16x16"),
 #     ("icon", "/icon_128x128.png", "128x128"),
 # )
+
+FAVICONS = [
+    ('icon', '/favicon.png', '256x256'),
+    ('icon', '/favicon.svg', 'any'),
+]
 
 # Show teasers (instead of full posts) in indexes? Defaults to False.
 # INDEX_TEASERS = False
