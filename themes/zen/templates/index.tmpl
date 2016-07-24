@@ -14,7 +14,7 @@
                 </div>
                 <div class="stats">
                 % if not post.meta('nocomments'):
-                    ${comments.comment_link(post.permalink(), post.base_path)}
+                    ${comments.comment_link(post.permalink(), post.meta('disqus_identifier') or post.base_path)}
                 % endif
                 </div>
             ${arusahni.html_tags(post)}
