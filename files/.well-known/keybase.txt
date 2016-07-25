@@ -1,0 +1,69 @@
+==================================================================
+https://keybase.io/mithrandi
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://mithrandi.net
+  * I am mithrandi (https://keybase.io/mithrandi) on keybase.
+  * I have a public key with fingerprint DB24 E315 EDAA AC13 D646  7099 58C0 FB1C DE3B 7600
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "db24e315edaaac13d646709958c0fb1cde3b7600",
+            "host": "keybase.io",
+            "key_id": "58C0FB1CDE3B7600",
+            "uid": "042594c666dc5b05473af2073c7f5700",
+            "username": "mithrandi"
+        },
+        "service": {
+            "hostname": "mithrandi.net",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1396040010,
+    "expire_in": 157680000,
+    "prev": "027989236e7ef5be5325cf23b2f9baa4b1239a1aa4a6c3c8a16a789ce42c8c90",
+    "seqno": 3,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owGbwMvMwMUYceC3zD3rMgbG0we+JDEEmz70qlZKyk+pVLKqVspOBVNpmXnpqUUF
+RZl5JUpWSilJRiapxoamqSmJiYnJhsYpZiZm5gaWlqYWyQZpSYbJKanGSeZmBgZK
+OkoZ+cUgHUBjkhKLU/Uy84FiQE58ZgpQ1NTC2cDNydDZxdXYCaq+FCxhYGJkammS
+bGZmlpJsmmRgamJunJhmZGBunGyeZmoOUVicWpSXmJsKVJ2bWZJRlJiXkqlUq6ME
+FC7LTE4FORpkN7oSvbzUEqDugqL8kvzk/BygVEZJSUGxFUhrSWUBSG15alI81JT4
+pEygnrx0oI6y1KLizPw8JStDoMrkkkyQsYbGlmYGJgYGhgY6SqkVBZlFqfGZIBWm
+5mYWBkAAsie1DOQfI3NLC0sjY7NU89Q006RUU2Mj0+Q0I+MkozTLpMREkyRDI2PL
+REMgK9Es2TjZItHQLNHcwjI51cQo2SLZEuTf4tTCvHwlK2OgMxPTgUYWZ6bnJZaU
+FqUq1XYyybAwMHIxsLEygSKPgYtTABalJr38/6y3OCsFmmyfkHpxZd2N94bFj5Pk
+sjPN3z2YISvH5CS4K+7rMr+cFO7rr8L/Jd8/ob+no/9wxMGdrhfe3LVY1WJ4rUK3
+1E19mWCJ0KxZV2NNr/Y3sDx2T+I/+LPe5uHPhVsz/d0bbz2rDjH/pb7pj7TEx9Vf
+7bet+NDyvpw1Y15P1CrPXbn28qu5HqyxsKh5vHYRW4x+xILz+51idE88P7N1ugjX
+uQ2uBSt3XtZ5t/vzxKMBh/b6fJv+jCdnqg7LtbUHpTn9zFLmNgiEOnZyriixCJYM
+KrVtCzGqmn7fy2eSs4q22gttUR+hjxJL32a6Vt4+NS9Z2PAI01Tx4wtq5XY7nJ7i
+eNhiouZsoSYZy5b0zHkO9X/YTebL/3hRtH5T2FSxN7mrz25vusAuf/XDxknOSTsd
+b6ys3HbKeGp/xafPs74vct2+01n+7VFbXe3WEyYaTFyJX+X+v+Fb1vTlYvrTH2Hs
+dVKh6f3mhyKkH/nyc6StuVdybMIj1iPzMyqXLnrBOfXFh2Tt4EMpKx6nOrGU61ex
+fd39kik10uTo41bpqrzt5jyhouFXF6ToXznq39x7fonvBZ7eVy5p+ienXxGbOVNC
+V9Vx41vGlXMU/ZWidZ6pHat921BRtN53l03xg68p6yJORrDGsrIfCnMSDdlqtG1b
+8nbl8GznHxNdhY5M9rlx8NV80T3/Xnq15x1N3j5hhZPr8nMVYQWrLQE=
+=ifKO
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/mithrandi
+
+==================================================================
