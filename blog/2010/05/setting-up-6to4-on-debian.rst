@@ -7,9 +7,7 @@ set 6to4 up on Debian.
 First, you will need to calculate your 6to4 IPv6 address prefix, which is based
 on the IPv4 address of the host you are using as your 6to4 router. For example,
 if your router's public address is 10.10.10.1 (this is NOT actually a public
-address):
-
-.. code:: none
+address)::
 
    $ ipv6calc --action conv6to4 10.10.10.1</code>
    No input type specified, try autodetection...found type: ipv4addr
@@ -18,9 +16,7 @@ address):
 
 Add 1 to the end of this to obtain your router's address, ``2002:a0a:a01::1``
 in this case. Next, you will need to add an entry for the tunnel to
-``/etc/network/interfaces``:
-
-.. code:: none
+``/etc/network/interfaces``::
 
    auto tun6to4
    iface tun6to4 inet6 v4tunnel
@@ -51,9 +47,7 @@ hosts on your network, but it will probably be easier to do EUI64-based
 autoconfiguration; this allows each host to automatically select an address
 based on their MAC address when they receive a router advertisement. In order
 to send router advertisements, you will need to install ``radvd``, and
-then put something like the following in ``/etc/radvd.conf``:
-
-.. code:: none
+then put something like the following in ``/etc/radvd.conf``::
 
    interface eth0
    {
@@ -78,9 +72,7 @@ prefix address with the full address as shown earlier.
 Your hosts should now have performed EUI64-based autoconfiguration and
 configured a public IPv6 address for themselves, unless you have disabled this
 for some reason. If you need to manually calculate the auto-configured address
-for a particular host, you can do so given its MAC address:
-
-.. code:: none
+for a particular host, you can do so given its MAC address::
 
    $ ipv6calc --action prefixmac2ipv6 --in prefix+mac --out ipv6 \
        2002:a0a:a01:dead::/64 11:22:33:44:55:66
@@ -103,16 +95,12 @@ separately from the temporary addresses assigned by privacy extensions. The
 randomly generated identifier should be persisted, so the address will not
 change, but it will bear no relation to the MAC address, thus preventing you
 from being able to calculate it. If you wish to disable this feature, run the
-following command with Administrator privileges:
-
-.. code:: none
+following command with Administrator privileges::
 
    netsh interface ipv6 set global randomizeidentifiers=disabled
 
 If you also wish to disable privacy extensions, you can use the following
 command, but note that this is not necessary if you just want persistent
-EUI64-based addresses:
-
-.. code:: none
+EUI64-based addresses::
 
    netsh interface ipv6 set privacy disabled
